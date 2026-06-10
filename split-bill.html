@@ -9,132 +9,93 @@
 <title>หารบิล — เจน & กอหญ้า</title>
 <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg: #faf7f2;
-  --surface: #ffffff;
-  --surface2: #f3ede4;
-  --border: rgba(0,0,0,0.07);
-  --border2: rgba(0,0,0,0.12);
-  --text: #1a1410;
-  --text2: #7a6e62;
-  --text3: #b0a496;
-  --coral: #ff6b4a;
-  --coral-dim: rgba(255,107,74,0.1);
-  --teal: #00a896;
-  --teal-dim: rgba(0,168,150,0.1);
-  --gold: #f4a624;
-  --gold-dim: rgba(244,166,36,0.1);
-  --rose: #e8547a;
-  --rose-dim: rgba(232,84,122,0.1);
-  --radius: 16px;
-  --radius-sm: 10px;
-}
-* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-body { background: var(--bg); color: var(--text); font-family: 'Prompt', sans-serif; min-height: 100vh; padding-bottom: 90px; }
-
-/* Header */
-.header { background: var(--surface); border-bottom: 0.5px solid var(--border); padding: 20px 16px 14px; position: sticky; top: 0; z-index: 50; }
-.header-title { font-size: 20px; font-weight: 600; letter-spacing: -0.3px; }
-.header-sub { font-size: 12px; color: var(--text3); margin-top: 2px; }
-
-/* Tabs */
-.tabs { display: flex; gap: 0; border-bottom: 0.5px solid var(--border); background: var(--surface); }
-.tab { flex: 1; padding: 11px 4px; font-size: 13px; font-family: inherit; font-weight: 400; border: none; background: none; cursor: pointer; color: var(--text3); border-bottom: 2px solid transparent; transition: all 0.2s; }
-.tab.active { color: var(--coral); border-bottom-color: var(--coral); font-weight: 500; }
-
-/* Pages */
-.page { display: none; padding: 16px; max-width: 480px; margin: 0 auto; }
-.page.active { display: block; }
-
-/* Session card */
-.session-card { background: var(--surface); border-radius: var(--radius); border: 0.5px solid var(--border); padding: 16px; margin-bottom: 12px; }
-.session-title { font-size: 16px; font-weight: 500; margin-bottom: 4px; }
-.session-date { font-size: 11px; color: var(--text3); }
-.session-total { font-size: 22px; font-weight: 600; color: var(--coral); margin: 10px 0 6px; }
-
-/* Settlement box */
-.settle-box { border-radius: var(--radius-sm); padding: 12px 14px; margin-top: 10px; display: flex; align-items: center; gap: 10px; }
-.settle-box.owe { background: var(--rose-dim); }
-.settle-box.even { background: var(--teal-dim); }
-.settle-icon { font-size: 22px; }
-.settle-text { font-size: 14px; font-weight: 500; }
-.settle-text span { font-size: 18px; font-weight: 600; }
-.settle-sub { font-size: 11px; color: var(--text2); margin-top: 2px; }
-
-/* Items in session */
-.item-list { margin-top: 10px; }
-.item-row { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 0.5px solid var(--border); font-size: 13px; }
-.item-row:last-child { border-bottom: none; }
-.item-who { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 20px; font-weight: 500; margin-right: 6px; }
-.who-jane { background: var(--coral-dim); color: var(--coral); }
-.who-korya { background: var(--teal-dim); color: var(--teal); }
-.who-other { background: var(--gold-dim); color: var(--gold); }
-.item-name { color: var(--text); flex: 1; }
-.item-amt { font-weight: 500; color: var(--text); white-space: nowrap; margin-left: 8px; }
-.del-btn { background: none; border: none; cursor: pointer; color: var(--text3); padding: 4px 6px; border-radius: 6px; font-size: 14px; margin-left: 4px; }
-.del-btn:active { color: var(--coral); }
-
-/* Form */
-.form-card { background: var(--surface); border-radius: var(--radius); border: 0.5px solid var(--border); padding: 16px; margin-bottom: 12px; }
-.form-title { font-size: 14px; font-weight: 500; color: var(--text2); margin-bottom: 14px; }
-label { font-size: 12px; color: var(--text2); display: block; margin-bottom: 5px; margin-top: 12px; }
-label:first-child { margin-top: 0; }
-input, select { width: 100%; background: var(--surface2); border: 0.5px solid var(--border2); border-radius: var(--radius-sm); color: var(--text); font-size: 15px; font-family: inherit; padding: 10px 12px; outline: none; -webkit-appearance: none; }
-input:focus, select:focus { border-color: var(--coral); }
-select option { background: #fff; }
-.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.btn { width: 100%; padding: 13px; border-radius: var(--radius-sm); border: none; font-size: 15px; font-weight: 500; font-family: inherit; cursor: pointer; margin-top: 14px; transition: opacity 0.15s, transform 0.1s; }
-.btn:active { transform: scale(0.97); opacity: 0.85; }
-.btn-coral { background: var(--coral); color: #fff; }
-.btn-teal { background: var(--teal); color: #fff; }
-.btn-ghost { background: var(--surface2); color: var(--text2); border: 0.5px solid var(--border2); margin-top: 8px; }
-.btn-danger { background: #fff0ee; color: var(--coral); border: 0.5px solid var(--coral); margin-top: 8px; }
-
-/* Member chips */
-.member-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
-.chip { padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; cursor: pointer; border: 1.5px solid transparent; transition: all 0.15s; font-family: inherit; }
-.chip-jane { background: var(--coral-dim); color: var(--coral); border-color: transparent; }
-.chip-jane.selected { border-color: var(--coral); }
-.chip-korya { background: var(--teal-dim); color: var(--teal); border-color: transparent; }
-.chip-korya.selected { border-color: var(--teal); }
-.chip-other { background: var(--gold-dim); color: var(--gold); border-color: transparent; }
-.chip-other.selected { border-color: var(--gold); }
-
-/* Summary bar */
-.summary-bar { background: var(--surface); border-radius: var(--radius); border: 0.5px solid var(--border); padding: 14px 16px; margin-bottom: 12px; display: flex; gap: 16px; overflow-x: auto; }
-.sum-item { text-align: center; min-width: 70px; }
-.sum-label { font-size: 10px; color: var(--text3); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.3px; }
-.sum-val { font-size: 18px; font-weight: 600; }
-.sum-val.coral { color: var(--coral); }
-.sum-val.teal { color: var(--teal); }
-.sum-val.gold { color: var(--gold); }
-
-/* Nav */
-.nav { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(250,247,242,0.95); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-top: 0.5px solid var(--border2); display: flex; z-index: 100; padding-bottom: env(safe-area-inset-bottom); }
-.nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 10px 4px 8px; cursor: pointer; color: var(--text3); font-size: 10px; gap: 3px; font-family: inherit; border: none; background: none; transition: color 0.2s; }
-.nav-item.active { color: var(--coral); }
-.nav-item svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-
-/* Empty */
-.empty { text-align: center; color: var(--text3); font-size: 13px; padding: 32px 0; }
-.empty-icon { font-size: 36px; margin-bottom: 8px; }
-
-/* Toast */
-#toast { position: fixed; bottom: 95px; left: 50%; transform: translateX(-50%) translateY(10px); background: var(--text); color: var(--bg); font-size: 13px; padding: 10px 20px; border-radius: 20px; opacity: 0; pointer-events: none; transition: all 0.25s; z-index: 200; white-space: nowrap; }
-#toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-
-/* Session header row */
-.session-header-row { display: flex; justify-content: space-between; align-items: flex-start; }
-.tag { font-size: 10px; padding: 3px 8px; border-radius: 20px; font-weight: 500; }
-.tag-open { background: var(--gold-dim); color: var(--gold); }
-.tag-closed { background: var(--teal-dim); color: var(--teal); }
-
-/* Divider */
-hr { border: none; border-top: 0.5px solid var(--border); margin: 12px 0; }
+:root{--bg:#faf7f2;--surface:#fff;--surface2:#f3ede4;--border:rgba(0,0,0,.07);--border2:rgba(0,0,0,.12);--text:#1a1410;--text2:#7a6e62;--text3:#b0a496;--coral:#ff6b4a;--coral-dim:rgba(255,107,74,.1);--teal:#00a896;--teal-dim:rgba(0,168,150,.1);--gold:#f4a624;--gold-dim:rgba(244,166,36,.1);--rose:#e8547a;--rose-dim:rgba(232,84,122,.1);--purple:#8b5cf6;--purple-dim:rgba(139,92,246,.1);--r:16px;--rs:10px}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{background:var(--bg);color:var(--text);font-family:'Prompt',sans-serif;min-height:100vh;padding-bottom:90px}
+.header{background:var(--surface);border-bottom:.5px solid var(--border);padding:20px 16px 14px;position:sticky;top:0;z-index:50}
+.header-title{font-size:20px;font-weight:600;letter-spacing:-.3px}
+.header-sub{font-size:12px;color:var(--text3);margin-top:2px}
+.tabs{display:flex;border-bottom:.5px solid var(--border);background:var(--surface);position:sticky;top:57px;z-index:49}
+.tab{flex:1;padding:11px 4px;font-size:13px;font-family:inherit;border:none;background:none;cursor:pointer;color:var(--text3);border-bottom:2px solid transparent;transition:all .2s}
+.tab.active{color:var(--coral);border-bottom-color:var(--coral);font-weight:500}
+.page{display:none;padding:16px;max-width:480px;margin:0 auto}
+.page.active{display:block}
+.card{background:var(--surface);border-radius:var(--r);border:.5px solid var(--border);padding:16px;margin-bottom:12px}
+.card-title{font-size:13px;color:var(--text2);margin-bottom:12px;font-weight:500}
+.bill-card{background:var(--surface);border-radius:var(--r);border:.5px solid var(--border);padding:16px;margin-bottom:12px}
+.bill-card.draft{border-left:3px solid var(--gold)}
+.bill-card.done{border-left:3px solid var(--teal)}
+.bill-header{display:flex;justify-content:space-between;align-items:flex-start}
+.bill-title{font-size:15px;font-weight:500;line-height:1.4}
+.bill-date{font-size:11px;color:var(--text3);margin-top:2px}
+.bill-total{font-size:20px;font-weight:600;color:var(--coral);margin:8px 0 6px}
+.bill-actions{display:flex;gap:8px;margin-top:12px}
+.bill-actions button{flex:1;padding:8px 4px;border-radius:var(--rs);border:.5px solid var(--border2);background:var(--surface2);font-size:12px;font-family:inherit;cursor:pointer;font-weight:500}
+.btn-edit{color:var(--gold)!important;border-color:var(--gold)!important;background:var(--gold-dim)!important}
+.btn-complete{color:var(--teal)!important;border-color:var(--teal)!important;background:var(--teal-dim)!important}
+.btn-del{color:var(--rose)!important;border-color:var(--rose)!important;background:var(--rose-dim)!important}
+.btn-reopen{color:var(--purple)!important;border-color:var(--purple)!important;background:var(--purple-dim)!important}
+.badge{display:inline-block;font-size:10px;padding:2px 8px;border-radius:20px;font-weight:500;margin-left:6px}
+.badge-draft{background:var(--gold-dim);color:var(--gold)}
+.badge-done{background:var(--teal-dim);color:var(--teal)}
+label{font-size:12px;color:var(--text2);display:block;margin-bottom:5px;margin-top:12px}
+label:first-child{margin-top:0}
+input,select{width:100%;background:var(--surface2);border:.5px solid var(--border2);border-radius:var(--rs);color:var(--text);font-size:15px;font-family:inherit;padding:10px 12px;outline:none;-webkit-appearance:none}
+input:focus,select:focus{border-color:var(--coral)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.btn{width:100%;padding:13px;border-radius:var(--rs);border:none;font-size:15px;font-weight:500;font-family:inherit;cursor:pointer;margin-top:12px;transition:opacity .15s,transform .1s}
+.btn:active{transform:scale(.97);opacity:.85}
+.btn-coral{background:var(--coral);color:#fff}
+.btn-teal{background:var(--teal);color:#fff}
+.btn-gold{background:var(--gold);color:#fff}
+.btn-ghost{background:var(--surface2);color:var(--text2);border:.5px solid var(--border2);margin-top:8px}
+.item-row{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:.5px solid var(--border);font-size:13px}
+.item-row:last-child{border-bottom:none}
+.item-who{display:inline-block;font-size:10px;padding:2px 7px;border-radius:20px;font-weight:500;margin-right:6px;white-space:nowrap;flex-shrink:0}
+.who-jane{background:var(--coral-dim);color:var(--coral)}
+.who-korya{background:var(--teal-dim);color:var(--teal)}
+.who-other{background:var(--gold-dim);color:var(--gold)}
+.item-name{color:var(--text);flex:1;min-width:0}
+.item-amt{font-weight:500;white-space:nowrap;margin-left:8px}
+.del-btn{background:none;border:none;cursor:pointer;color:var(--text3);padding:4px 6px;border-radius:6px;font-size:14px;margin-left:4px;flex-shrink:0}
+.member-chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.chip{padding:6px 14px;border-radius:20px;font-size:13px;font-weight:500;cursor:pointer;border:1.5px solid transparent;font-family:inherit}
+.chip-jane{background:var(--coral-dim);color:var(--coral)}
+.chip-jane.selected{border-color:var(--coral)}
+.chip-korya{background:var(--teal-dim);color:var(--teal)}
+.chip-korya.selected{border-color:var(--teal)}
+.chip-other{background:var(--gold-dim);color:var(--gold)}
+.chip-other.selected{border-color:var(--gold)}
+.settle-box{border-radius:var(--rs);padding:10px 12px;margin-top:8px;display:flex;align-items:center;gap:10px}
+.settle-box.owe{background:var(--rose-dim)}
+.settle-box.even{background:var(--teal-dim)}
+.settle-text{font-size:14px;font-weight:500}
+.settle-text span{font-size:16px;font-weight:600}
+.summary-bar{background:var(--surface);border-radius:var(--r);border:.5px solid var(--border);padding:14px 16px;margin-bottom:12px;display:flex;gap:16px;overflow-x:auto}
+.sum-item{text-align:center;min-width:70px}
+.sum-label{font-size:10px;color:var(--text3);margin-bottom:4px;text-transform:uppercase}
+.sum-val{font-size:18px;font-weight:600}
+.sum-val.coral{color:var(--coral)}
+.sum-val.teal{color:var(--teal)}
+.sum-val.gold{color:var(--gold)}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:200;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.modal-overlay.active{display:block}
+.modal{background:var(--bg);border-radius:var(--r) var(--r) 0 0;max-width:480px;margin:60px auto 0;padding:20px;min-height:calc(100vh - 60px)}
+.modal-title{font-size:16px;font-weight:600;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center}
+.modal-close{background:none;border:none;font-size:22px;cursor:pointer;color:var(--text3);padding:4px}
+.section-label{font-size:12px;color:var(--text3);margin-bottom:8px;padding:0 2px}
+.nav{position:fixed;bottom:0;left:0;right:0;background:rgba(250,247,242,.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:.5px solid var(--border2);display:flex;z-index:100;padding-bottom:env(safe-area-inset-bottom)}
+.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;padding:10px 4px 8px;cursor:pointer;color:var(--text3);font-size:10px;gap:3px;font-family:inherit;border:none;background:none}
+.nav-item.active{color:var(--coral)}
+.nav-item svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.empty{text-align:center;color:var(--text3);font-size:13px;padding:28px 0}
+.empty-icon{font-size:34px;margin-bottom:8px}
+hr{border:none;border-top:.5px solid var(--border);margin:12px 0}
+#toast{position:fixed;bottom:95px;left:50%;transform:translateX(-50%) translateY(10px);background:var(--text);color:var(--bg);font-size:13px;padding:10px 20px;border-radius:20px;opacity:0;pointer-events:none;transition:all .25s;z-index:400;white-space:nowrap}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 </style>
 </head>
 <body>
-
 <div id="toast"></div>
 
 <div class="header">
@@ -143,335 +104,296 @@ hr { border: none; border-top: 0.5px solid var(--border); margin: 12px 0; }
 </div>
 
 <div class="tabs">
-  <button class="tab active" onclick="showTab('add')">+ เพิ่มรายการ</button>
-  <button class="tab" onclick="showTab('sessions')">บิลทั้งหมด</button>
-  <button class="tab" onclick="showTab('summary')">สรุปรวม</button>
+  <button class="tab active" onclick="showTab('bills')">📋 บิลทั้งหมด</button>
+  <button class="tab" onclick="showTab('summary')">📊 สรุปรวม</button>
 </div>
 
-<!-- ADD TAB -->
-<div id="tab-add" class="page active">
-
-  <!-- Current session -->
-  <div class="form-card" id="current-session-card">
-    <div class="form-title">📋 บิลปัจจุบัน</div>
-    <label>ชื่อบิล / วันนี้ไปไหน</label>
-    <input type="text" id="session-name" placeholder="เช่น ข้าวเย็น MBK, ชาบูด้วยกัน">
-    <label>วันที่</label>
-    <input type="date" id="session-date">
-    <label>สมาชิก</label>
-    <div style="font-size:12px;color:var(--text3);margin-top:4px">เจน & กอหญ้า จะถูกใส่เสมอ เพิ่มคนอื่นได้ถ้ามี</div>
-    <input type="text" id="extra-members" placeholder="ชื่อคนอื่น คั่นด้วยจุลภาค เช่น มิ้น, เบส" style="margin-top:8px">
+<!-- BILLS TAB -->
+<div id="tab-bills" class="page active">
+  <button class="btn btn-coral" style="margin-bottom:16px;margin-top:0" onclick="openNewBill()">+ สร้างบิลใหม่</button>
+  <div id="draft-section">
+    <div class="section-label">📝 Draft — ยังไม่เสร็จ</div>
+    <div id="draft-list"></div>
   </div>
-
-  <div class="form-card">
-    <div class="form-title">➕ เพิ่มรายการ</div>
-    <label>รายการ</label>
-    <input type="text" id="item-name" placeholder="เช่น ค่าอาหาร, ของหวาน, น้ำ">
-    <div class="row2">
-      <div>
-        <label>ใครจ่าย</label>
-        <select id="item-payer"></select>
-      </div>
-      <div>
-        <label>จำนวน (บาท)</label>
-        <input type="number" id="item-amt" placeholder="0" inputmode="decimal">
-      </div>
-    </div>
-    <label>ใครร่วมจ่ายบ้าง (เลือกได้หลายคน)</label>
-    <div class="member-chips" id="participant-chips"></div>
-    <button class="btn btn-coral" onclick="addItem()">+ เพิ่มรายการนี้</button>
+  <div id="done-section" style="margin-top:16px">
+    <div class="section-label">✅ เสร็จแล้ว</div>
+    <div id="done-list"></div>
   </div>
-
-  <!-- Live preview -->
-  <div class="form-card" id="preview-card">
-    <div class="form-title">🧾 รายการในบิลนี้</div>
-    <div id="preview-list"><div class="empty" style="padding:16px 0"><div class="empty-icon">🍽️</div>ยังไม่มีรายการ</div></div>
-    <div id="preview-settle" style="display:none"></div>
-    <button class="btn btn-teal" onclick="saveSession()" style="margin-top:14px">✓ บันทึกบิลนี้</button>
-    <button class="btn btn-ghost" onclick="clearCurrent()">ล้างรายการทั้งหมด</button>
-  </div>
-</div>
-
-<!-- SESSIONS TAB -->
-<div id="tab-sessions" class="page">
-  <div id="sessions-list"></div>
 </div>
 
 <!-- SUMMARY TAB -->
 <div id="tab-summary" class="page">
   <div class="summary-bar" id="summary-totals"></div>
-  <div class="form-card" id="summary-settle"></div>
-  <div id="summary-sessions"></div>
+  <div class="card" id="summary-settle"></div>
+  <div id="summary-list"></div>
 </div>
 
+<!-- MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <div class="modal-title">
+      <span id="modal-title-text">✏️ บิลใหม่</span>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+
+    <div class="card">
+      <label>ชื่อบิล</label>
+      <input type="text" id="m-name" placeholder="เช่น ทริปเชียงใหม่, ข้าวเย็น MBK">
+      <label>วันที่เริ่ม</label>
+      <input type="date" id="m-date">
+      <label>สมาชิกเพิ่มเติม (นอกจากเจน & กอหญ้า)</label>
+      <input type="text" id="m-extra" placeholder="เช่น มิ้น, เบส  (คั่นด้วยจุลภาค)">
+    </div>
+
+    <div class="card">
+      <div class="card-title">➕ เพิ่มรายการ</div>
+      <label>รายการ</label>
+      <input type="text" id="m-item-name" placeholder="เช่น ค่าอาหาร, ที่พัก, ตั๋ว">
+      <div class="row2">
+        <div><label>ใครจ่าย</label><select id="m-item-payer"></select></div>
+        <div><label>จำนวน (บาท)</label><input type="number" id="m-item-amt" placeholder="0" inputmode="decimal"></div>
+      </div>
+      <label>ใครร่วมจ่ายบ้าง</label>
+      <div class="member-chips" id="m-chips"></div>
+      <button class="btn btn-coral" onclick="addModalItem()">+ เพิ่มรายการนี้</button>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🧾 รายการในบิล</div>
+      <div id="m-item-list"></div>
+      <div id="m-settle"></div>
+    </div>
+
+    <button class="btn btn-gold" onclick="saveDraft()">💾 บันทึก Draft (ยังไม่เสร็จ)</button>
+    <button class="btn btn-teal" onclick="completeBill()">✓ ปิดบิลนี้ (เสร็จแล้ว)</button>
+    <button class="btn btn-ghost" onclick="closeModal()">ยกเลิก</button>
+  </div>
+</div>
+
+<nav class="nav">
+  <button class="nav-item active" onclick="showTab('bills')" id="nav-bills">
+    <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+    บิล
+  </button>
+  <button class="nav-item" onclick="showTab('summary')" id="nav-summary">
+    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+    สรุป
+  </button>
+</nav>
+
 <script>
-const K = { sessions:'split_sessions', current:'split_current' };
-let sessions = JSON.parse(localStorage.getItem(K.sessions)||'[]');
-let current = JSON.parse(localStorage.getItem(K.current)||'{"name":"","date":"","items":[],"extraMembers":[]}');
+const K='splitv2_bills';
+let bills=JSON.parse(localStorage.getItem(K)||'[]');
+let editingId=null;
+let modalItems=[];
 
-function save(){ localStorage.setItem(K.sessions,JSON.stringify(sessions)); }
-function saveCurrent(){ localStorage.setItem(K.current,JSON.stringify(current)); }
-function fmt(n){ return Math.round(n).toLocaleString('th-TH'); }
-function fmtD(n){ return n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g,','); }
-function today(){ return new Date().toISOString().split('T')[0]; }
-function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2000); }
+function save(){localStorage.setItem(K,JSON.stringify(bills));}
+function fmt(n){return Math.round(n).toLocaleString('th-TH');}
+function fmtD(n){return n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g,',');}
+function today(){return new Date().toISOString().split('T')[0];}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2000);}
+function whoClass(n){return n==='เจน'?'who-jane':n==='กอหญ้า'?'who-korya':'who-other';}
 
-function getMembers(){
-  const extra = (document.getElementById('extra-members').value||'').split(',').map(s=>s.trim()).filter(Boolean);
-  return ['เจน','กอหญ้า',...extra];
+function getModalMembers(){
+  const ex=(document.getElementById('m-extra').value||'').split(',').map(s=>s.trim()).filter(Boolean);
+  return ['เจน','กอหญ้า',...ex];
 }
-
-function getStoredMembers(session){
-  const all = new Set(['เจน','กอหญ้า']);
-  session.items.forEach(i=>{ all.add(i.payer); i.participants.forEach(p=>all.add(p)); });
-  return [...all];
+function buildPayer(){
+  document.getElementById('m-item-payer').innerHTML=getModalMembers().map(m=>`<option>${m}</option>`).join('');
 }
-
-function buildPayerSelect(){
-  const sel = document.getElementById('item-payer');
-  const members = getMembers();
-  sel.innerHTML = members.map(m=>`<option value="${m}">${m}</option>`).join('');
-}
-
 function buildChips(){
-  const members = getMembers();
-  const chips = document.getElementById('participant-chips');
-  chips.innerHTML = members.map(m=>{
-    const cls = m==='เจน'?'chip-jane':m==='กอหญ้า'?'chip-korya':'chip-other';
-    return `<button class="chip ${cls} selected" onclick="toggleChip(this,'${m}')">${m}</button>`;
+  const prev=[...document.querySelectorAll('#m-chips .chip.selected')].map(c=>c.textContent);
+  document.getElementById('m-chips').innerHTML=getModalMembers().map(m=>{
+    const cls=m==='เจน'?'chip-jane':m==='กอหญ้า'?'chip-korya':'chip-other';
+    const sel=prev.length===0||prev.includes(m)?'selected':'';
+    return `<button class="chip ${cls} ${sel}" onclick="this.classList.toggle('selected')">${m}</button>`;
   }).join('');
 }
+function getChips(){return[...document.querySelectorAll('#m-chips .chip.selected')].map(c=>c.textContent);}
 
-function toggleChip(el,name){ el.classList.toggle('selected'); }
-
-function getSelectedParticipants(){
-  return [...document.querySelectorAll('#participant-chips .chip.selected')].map(c=>c.textContent);
-}
-
-function whoClass(name){
-  if(name==='เจน') return 'who-jane';
-  if(name==='กอหญ้า') return 'who-korya';
-  return 'who-other';
-}
-
-// Calculate settlement for a list of items
-function calcSettle(items, members){
-  const paid = {}; const share = {};
-  members.forEach(m=>{ paid[m]=0; share[m]=0; });
-  items.forEach(item=>{
-    const n = item.participants.length || 1;
-    const per = item.amount / n;
-    if(paid[item.payer]!==undefined) paid[item.payer] += item.amount;
-    else paid[item.payer] = item.amount;
-    item.participants.forEach(p=>{
-      if(share[p]!==undefined) share[p]+=per;
-      else share[p]=per;
-    });
+function calcSettle(items,members){
+  const paid={},share={};
+  members.forEach(m=>{paid[m]=0;share[m]=0;});
+  items.forEach(i=>{
+    const n=i.participants.length||1,per=i.amount/n;
+    paid[i.payer]=(paid[i.payer]||0)+i.amount;
+    i.participants.forEach(p=>{share[p]=(share[p]||0)+per;});
   });
-  // net = paid - share (positive = owed money back, negative = owes money)
-  const net = {};
-  const allM = new Set([...Object.keys(paid),...Object.keys(share)]);
-  allM.forEach(m=>{ net[m]=(paid[m]||0)-(share[m]||0); });
-  return { paid, share, net };
+  const net={};
+  [...new Set([...Object.keys(paid),...Object.keys(share)])].forEach(m=>net[m]=(paid[m]||0)-(share[m]||0));
+  return{paid,share,net};
 }
-
-// Simplify debts to minimal transactions
 function simplifyDebts(net){
-  const creditors = [], debtors = [];
-  Object.entries(net).forEach(([m,v])=>{
-    if(v>0.5) creditors.push({m,v});
-    else if(v<-0.5) debtors.push({m,v:-v});
-  });
-  const txns = [];
-  let ci=0, di=0;
-  while(ci<creditors.length && di<debtors.length){
-    const amt = Math.min(creditors[ci].v, debtors[di].v);
-    txns.push({from:debtors[di].m, to:creditors[ci].m, amt});
-    creditors[ci].v -= amt; debtors[di].v -= amt;
-    if(creditors[ci].v < 0.5) ci++;
-    if(debtors[di].v < 0.5) di++;
+  const cred=[],debt=[];
+  Object.entries(net).forEach(([m,v])=>{if(v>0.5)cred.push({m,v});else if(v<-0.5)debt.push({m,v:-v});});
+  const txns=[];let ci=0,di=0;
+  while(ci<cred.length&&di<debt.length){
+    const amt=Math.min(cred[ci].v,debt[di].v);
+    txns.push({from:debt[di].m,to:cred[ci].m,amt});
+    cred[ci].v-=amt;debt[di].v-=amt;
+    if(cred[ci].v<0.5)ci++;if(debt[di].v<0.5)di++;
   }
   return txns;
 }
 
-function addItem(){
-  const name = document.getElementById('item-name').value.trim();
-  const amt = parseFloat(document.getElementById('item-amt').value);
-  const payer = document.getElementById('item-payer').value;
-  const participants = getSelectedParticipants();
-  if(!name) return toast('ใส่ชื่อรายการด้วยครับ');
-  if(!amt||amt<=0) return toast('ใส่จำนวนเงินด้วยครับ');
-  if(!participants.length) return toast('เลือกคนที่ร่วมจ่ายด้วยครับ');
-
-  // save session info
-  current.name = document.getElementById('session-name').value || 'บิล ' + (new Date().toLocaleDateString('th-TH',{month:'short',day:'numeric'}));
-  current.date = document.getElementById('session-date').value || today();
-  current.items.push({id:Date.now(), name, payer, amount:amt, participants});
-  saveCurrent();
-
-  document.getElementById('item-name').value='';
-  document.getElementById('item-amt').value='';
+function addModalItem(){
+  const name=document.getElementById('m-item-name').value.trim();
+  const amt=parseFloat(document.getElementById('m-item-amt').value);
+  const payer=document.getElementById('m-item-payer').value;
+  const participants=getChips();
+  if(!name)return toast('ใส่ชื่อรายการด้วยนะ');
+  if(!amt||amt<=0)return toast('ใส่จำนวนเงินด้วยนะ');
+  if(!participants.length)return toast('เลือกคนร่วมจ่ายด้วยนะ');
+  modalItems.push({id:Date.now(),name,payer,amount:amt,participants});
+  document.getElementById('m-item-name').value='';
+  document.getElementById('m-item-amt').value='';
   buildChips();
-  renderPreview();
+  renderModalItems();
   toast('เพิ่มแล้ว ✓');
 }
 
-function delCurrentItem(id){
-  current.items = current.items.filter(i=>i.id!==id);
-  saveCurrent();
-  renderPreview();
+function delModalItem(id){
+  modalItems=modalItems.filter(i=>i.id!==id);
+  renderModalItems();
 }
 
-function renderPreview(){
-  const list = document.getElementById('preview-list');
-  const settleEl = document.getElementById('preview-settle');
-  if(!current.items.length){
-    list.innerHTML='<div class="empty" style="padding:16px 0"><div class="empty-icon">🍽️</div>ยังไม่มีรายการ</div>';
-    settleEl.style.display='none';
-    return;
-  }
-  const total = current.items.reduce((s,i)=>s+i.amount,0);
-  list.innerHTML = current.items.map(i=>`
+function renderModalItems(){
+  const el=document.getElementById('m-item-list');
+  const se=document.getElementById('m-settle');
+  if(!modalItems.length){el.innerHTML='<div class="empty" style="padding:12px 0">ยังไม่มีรายการ</div>';se.innerHTML='';return;}
+  const total=modalItems.reduce((s,i)=>s+i.amount,0);
+  el.innerHTML=modalItems.map(i=>`
     <div class="item-row">
       <span class="item-who ${whoClass(i.payer)}">${i.payer}</span>
       <span class="item-name">${i.name} <span style="font-size:10px;color:var(--text3)">(${i.participants.join(', ')})</span></span>
       <span class="item-amt">${fmt(i.amount)}</span>
-      <button class="del-btn" onclick="delCurrentItem(${i.id})">✕</button>
+      <button class="del-btn" onclick="delModalItem(${i.id})">✕</button>
     </div>`).join('');
-  list.innerHTML += `<div class="item-row" style="font-weight:500;margin-top:4px"><span style="flex:1;color:var(--text2)">รวมทั้งหมด</span><span style="color:var(--coral);font-size:16px">${fmt(total)} บ.</span></div>`;
-
-  const members = getStoredMembers(current);
-  const {net} = calcSettle(current.items, members);
-  const txns = simplifyDebts(net);
-  settleEl.style.display='block';
-  settleEl.innerHTML = txns.length ? txns.map(t=>`
-    <div class="settle-box owe">
-      <div class="settle-icon">💸</div>
-      <div><div class="settle-text">${t.from} โอนให้ ${t.to} <span>${fmtD(t.amt)} บ.</span></div></div>
-    </div>`).join('') :
-    `<div class="settle-box even"><div class="settle-icon">✅</div><div class="settle-text">เท่ากันพอดี!</div></div>`;
+  el.innerHTML+=`<div class="item-row" style="font-weight:500"><span style="flex:1;color:var(--text2)">รวม</span><span style="color:var(--coral)">${fmt(total)} บ.</span></div>`;
+  const allM=[...new Set(['เจน','กอหญ้า',...modalItems.map(i=>i.payer),...modalItems.flatMap(i=>i.participants)])];
+  const txns=simplifyDebts(calcSettle(modalItems,allM).net);
+  se.innerHTML=txns.length?txns.map(t=>`<div class="settle-box owe"><div style="font-size:18px">💸</div><div class="settle-text">${t.from} โอน ${t.to} <span>${fmtD(t.amt)} บ.</span></div></div>`).join(''):`<div class="settle-box even"><div style="font-size:18px">✅</div><div class="settle-text">เท่ากันพอดี!</div></div>`;
 }
 
-function saveSession(){
-  if(!current.items.length) return toast('ยังไม่มีรายการ');
-  current.name = document.getElementById('session-name').value || 'บิล ' + (new Date().toLocaleDateString('th-TH',{month:'short',day:'numeric'}));
-  current.date = document.getElementById('session-date').value || today();
-  sessions.unshift({...current, id:Date.now()});
-  save();
-  current = {name:'',date:'',items:[],extraMembers:[]};
-  saveCurrent();
-  document.getElementById('session-name').value='';
-  document.getElementById('session-date').value='';
-  document.getElementById('extra-members').value='';
-  buildPayerSelect(); buildChips(); renderPreview();
-  toast('บันทึกบิลแล้ว ✓');
-  showTab('sessions');
+function openNewBill(){
+  editingId=null; modalItems=[];
+  document.getElementById('m-name').value='';
+  document.getElementById('m-date').value=today();
+  document.getElementById('m-extra').value='';
+  document.getElementById('modal-title-text').textContent='✏️ บิลใหม่';
+  buildPayer();buildChips();renderModalItems();
+  document.getElementById('modal').classList.add('active');
+  document.getElementById('modal').scrollTop=0;
 }
 
-function clearCurrent(){
-  if(!current.items.length) return;
-  if(!confirm('ล้างรายการทั้งหมดในบิลนี้?')) return;
-  current.items=[];
-  saveCurrent();
-  renderPreview();
+function editBill(id){
+  const b=bills.find(b=>b.id===id);if(!b)return;
+  editingId=id; modalItems=b.items.map(i=>({...i}));
+  document.getElementById('m-name').value=b.name;
+  document.getElementById('m-date').value=b.date;
+  document.getElementById('m-extra').value=(b.extraMembers||[]).join(', ');
+  document.getElementById('modal-title-text').textContent='✏️ แก้ไขบิล';
+  buildPayer();buildChips();renderModalItems();
+  document.getElementById('modal').classList.add('active');
+  document.getElementById('modal').scrollTop=0;
 }
 
-function delSession(id){
-  if(!confirm('ลบบิลนี้?')) return;
-  sessions=sessions.filter(s=>s.id!==id);
-  save();
-  renderSessions();
-  renderSummaryTab();
+function closeModal(){document.getElementById('modal').classList.remove('active');editingId=null;}
+
+function getBillData(status){
+  const name=document.getElementById('m-name').value.trim()||'บิล '+new Date().toLocaleDateString('th-TH',{month:'short',day:'numeric'});
+  const date=document.getElementById('m-date').value||today();
+  const extra=(document.getElementById('m-extra').value||'').split(',').map(s=>s.trim()).filter(Boolean);
+  return{name,date,extraMembers:extra,items:[...modalItems],status};
 }
 
-function renderSessions(){
-  const el=document.getElementById('sessions-list');
-  if(!sessions.length){ el.innerHTML='<div class="empty"><div class="empty-icon">🧾</div>ยังไม่มีบิลที่บันทึกไว้</div>'; return; }
-  el.innerHTML=sessions.map(s=>{
-    const total=s.items.reduce((sum,i)=>sum+i.amount,0);
-    const members=getStoredMembers(s);
-    const {net}=calcSettle(s.items,members);
-    const txns=simplifyDebts(net);
-    const settleHtml = txns.length ? txns.map(t=>`
-      <div class="settle-box owe" style="margin-top:8px">
-        <div class="settle-icon" style="font-size:16px">💸</div>
-        <div class="settle-text" style="font-size:13px">${t.from} โอน ${t.to} <span style="font-size:15px">${fmtD(t.amt)} บ.</span></div>
-      </div>`).join('') :
-      `<div class="settle-box even" style="margin-top:8px"><div class="settle-icon" style="font-size:16px">✅</div><div class="settle-text" style="font-size:13px">เท่ากันพอดี!</div></div>`;
-    return `<div class="session-card">
-      <div class="session-header-row">
-        <div><div class="session-title">${s.name}</div><div class="session-date">${s.date}</div></div>
-        <button class="del-btn" onclick="delSession(${s.id})" style="font-size:18px">🗑</button>
-      </div>
-      <div class="session-total">${fmt(total)} บาท</div>
-      <div class="item-list">${s.items.map(i=>`
-        <div class="item-row">
-          <span class="item-who ${whoClass(i.payer)}">${i.payer}</span>
-          <span class="item-name">${i.name}</span>
-          <span class="item-amt">${fmt(i.amount)}</span>
-        </div>`).join('')}
-      </div>
-      ${settleHtml}
-    </div>`;
-  }).join('');
+function saveDraft(){
+  const bill=getBillData('draft');
+  if(editingId){const i=bills.findIndex(b=>b.id===editingId);if(i!==-1)bills[i]={...bills[i],...bill};}
+  else bills.unshift({...bill,id:Date.now()});
+  save();closeModal();renderBills();toast('บันทึก Draft แล้ว 💾');
+}
+
+function completeBill(){
+  if(!modalItems.length)return toast('ยังไม่มีรายการในบิล');
+  const bill=getBillData('done');
+  if(editingId){const i=bills.findIndex(b=>b.id===editingId);if(i!==-1)bills[i]={...bills[i],...bill};}
+  else bills.unshift({...bill,id:Date.now()});
+  save();closeModal();renderBills();toast('ปิดบิลเสร็จแล้ว ✓');
+}
+
+function markComplete(id){
+  const b=bills.find(b=>b.id===id);
+  if(!b)return;
+  if(!b.items.length)return toast('ยังไม่มีรายการในบิล');
+  b.status='done';save();renderBills();toast('ปิดบิลแล้ว ✓');
+}
+
+function reopenBill(id){
+  const b=bills.find(b=>b.id===id);
+  if(b){b.status='draft';save();renderBills();toast('เปิด Draft แล้ว ↩️');}
+}
+
+function deleteBill(id){
+  if(!confirm('ลบบิลนี้?'))return;
+  bills=bills.filter(b=>b.id!==id);save();renderBills();renderSummaryTab();
+}
+
+function renderBillCard(b){
+  const total=b.items.reduce((s,i)=>s+i.amount,0);
+  const allM=[...new Set(['เจน','กอหญ้า',...b.items.map(i=>i.payer),...b.items.flatMap(i=>i.participants)])];
+  const txns=b.items.length?simplifyDebts(calcSettle(b.items,allM).net):[];
+  const settleHtml=txns.length?txns.map(t=>`<div class="settle-box owe" style="margin-top:6px"><div style="font-size:15px">💸</div><div class="settle-text" style="font-size:13px">${t.from} โอน ${t.to} <span style="font-size:14px">${fmtD(t.amt)} บ.</span></div></div>`).join(''):b.items.length?`<div class="settle-box even" style="margin-top:6px"><div style="font-size:15px">✅</div><div class="settle-text" style="font-size:13px">เท่ากันพอดี!</div></div>`:'';
+  const members=['เจน','กอหญ้า',...(b.extraMembers||[])].join(', ');
+  const isDraft=b.status==='draft';
+  const actions=isDraft?
+    `<button class="btn-edit" onclick="editBill(${b.id})">✏️ แก้ไข</button><button class="btn-complete" onclick="markComplete(${b.id})">✓ ปิดบิล</button><button class="btn-del" onclick="deleteBill(${b.id})">🗑 ลบ</button>`:
+    `<button class="btn-edit" onclick="editBill(${b.id})">✏️ แก้ไข</button><button class="btn-reopen" onclick="reopenBill(${b.id})">↩️ เปิดใหม่</button><button class="btn-del" onclick="deleteBill(${b.id})">🗑 ลบ</button>`;
+  return`<div class="bill-card ${b.status}">
+    <div class="bill-title">${b.name}<span class="badge badge-${b.status}">${isDraft?'Draft':'เสร็จแล้ว'}</span></div>
+    <div class="bill-date">${b.date} · ${members}</div>
+    <div class="bill-total">${fmt(total)} บาท</div>
+    ${b.items.length?`<div>${b.items.map(i=>`<div class="item-row"><span class="item-who ${whoClass(i.payer)}">${i.payer}</span><span class="item-name">${i.name}</span><span class="item-amt">${fmt(i.amount)}</span></div>`).join('')}</div>`:'<div style="font-size:12px;color:var(--text3);padding:4px 0">ยังไม่มีรายการ</div>'}
+    ${settleHtml}
+    <div class="bill-actions">${actions}</div>
+  </div>`;
+}
+
+function renderBills(){
+  const drafts=bills.filter(b=>b.status==='draft');
+  const done=bills.filter(b=>b.status==='done');
+  document.getElementById('draft-section').style.display=drafts.length?'':'none';
+  document.getElementById('draft-list').innerHTML=drafts.map(renderBillCard).join('');
+  document.getElementById('done-list').innerHTML=done.length?done.map(renderBillCard).join(''):'<div class="empty"><div class="empty-icon">🧾</div>ยังไม่มีบิลที่เสร็จแล้ว</div>';
 }
 
 function renderSummaryTab(){
-  // Totals per person
-  const totals={เจน:{paid:0,share:0},กอหญ้า:{paid:0,share:0}};
-  sessions.forEach(s=>{
-    s.items.forEach(i=>{
-      const n=i.participants.length||1;
-      const per=i.amount/n;
-      if(totals[i.payer]) totals[i.payer].paid+=i.amount;
-      i.participants.forEach(p=>{ if(totals[p]) totals[p].share+=per; });
-    });
-  });
-  const grandTotal = sessions.reduce((s,se)=>s+se.items.reduce((ss,i)=>ss+i.amount,0),0);
-
+  const done=bills.filter(b=>b.status==='done');
+  const grand=done.reduce((s,b)=>s+b.items.reduce((ss,i)=>ss+i.amount,0),0);
+  const jPaid=done.reduce((s,b)=>s+b.items.filter(i=>i.payer==='เจน').reduce((ss,i)=>ss+i.amount,0),0);
+  const kPaid=done.reduce((s,b)=>s+b.items.filter(i=>i.payer==='กอหญ้า').reduce((ss,i)=>ss+i.amount,0),0);
   document.getElementById('summary-totals').innerHTML=`
-    <div class="sum-item"><div class="sum-label">รวมทั้งหมด</div><div class="sum-val coral">${fmt(grandTotal)}</div></div>
-    <div class="sum-item"><div class="sum-label">เจนจ่าย</div><div class="sum-val coral">${fmt(totals['เจน'].paid)}</div></div>
-    <div class="sum-item"><div class="sum-label">กอหญ้าจ่าย</div><div class="sum-val teal">${fmt(totals['กอหญ้า'].paid)}</div></div>
-    <div class="sum-item"><div class="sum-label">จำนวนบิล</div><div class="sum-val gold">${sessions.length}</div></div>`;
-
-  // Overall net
-  const allItems = sessions.flatMap(s=>s.items);
-  const allMembers = ['เจน','กอหญ้า'];
-  const {net} = calcSettle(allItems, allMembers);
-  const txns = simplifyDebts(net);
-  const settleEl = document.getElementById('summary-settle');
-  settleEl.innerHTML = `<div class="form-title">💰 ยอดรวมทุกบิล</div>` + (txns.length ? txns.map(t=>`
-    <div class="settle-box owe">
-      <div class="settle-icon">💸</div>
-      <div><div class="settle-text">${t.from} ยังต้องโอน ${t.to} <span>${fmtD(t.amt)} บ.</span></div>
-      <div class="settle-sub">รวมทุกบิลที่ยังไม่ได้คืน</div></div>
-    </div>`).join('') :
-    `<div class="settle-box even"><div class="settle-icon">🎉</div><div><div class="settle-text">เท่ากันหมดทุกบิล!</div><div class="settle-sub">ไม่มีใครค้างใคร</div></div></div>`);
-
-  const sumSess = document.getElementById('summary-sessions');
-  sumSess.innerHTML = sessions.length ? `<div style="font-size:12px;color:var(--text3);margin-bottom:8px;padding:0 4px">บิลล่าสุด ${sessions.length} รายการ</div>` + sessions.slice(0,5).map(s=>{
-    const total=s.items.reduce((sum,i)=>sum+i.amount,0);
-    return `<div class="session-card" style="padding:12px 14px"><div class="session-header-row"><div><div style="font-size:14px;font-weight:500">${s.name}</div><div class="session-date">${s.date}</div></div><div style="font-size:16px;font-weight:600;color:var(--coral)">${fmt(total)} บ.</div></div></div>`;
-  }).join('') : '';
+    <div class="sum-item"><div class="sum-label">รวมทั้งหมด</div><div class="sum-val coral">${fmt(grand)}</div></div>
+    <div class="sum-item"><div class="sum-label">เจนจ่าย</div><div class="sum-val coral">${fmt(jPaid)}</div></div>
+    <div class="sum-item"><div class="sum-label">กอหญ้าจ่าย</div><div class="sum-val teal">${fmt(kPaid)}</div></div>
+    <div class="sum-item"><div class="sum-label">บิลเสร็จแล้ว</div><div class="sum-val gold">${done.length}</div></div>`;
+  const allItems=done.flatMap(b=>b.items);
+  const txns=simplifyDebts(calcSettle(allItems,['เจน','กอหญ้า']).net);
+  document.getElementById('summary-settle').innerHTML=`<div class="card-title">💰 ยอดรวมทุกบิลที่ปิดแล้ว</div>`+(txns.length?txns.map(t=>`<div class="settle-box owe"><div style="font-size:18px">💸</div><div><div class="settle-text">${t.from} ยังต้องโอน ${t.to} <span>${fmtD(t.amt)} บ.</span></div><div style="font-size:11px;color:var(--text2);margin-top:2px">รวมทุกบิลที่ปิดแล้ว</div></div></div>`).join(''):`<div class="settle-box even"><div style="font-size:18px">🎉</div><div><div class="settle-text">เท่ากันหมด!</div><div style="font-size:11px;color:var(--text2);margin-top:2px">ไม่มีใครค้างใคร</div></div></div>`);
+  document.getElementById('summary-list').innerHTML=done.slice(0,5).map(b=>{const t=b.items.reduce((s,i)=>s+i.amount,0);return`<div class="bill-card done" style="padding:12px 14px"><div style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:14px;font-weight:500">${b.name}</div><div class="bill-date">${b.date}</div></div><div style="font-size:16px;font-weight:600;color:var(--coral)">${fmt(t)} บ.</div></div></div>`;}).join('');
 }
 
 function showTab(id){
-  ['add','sessions','summary'].forEach(t=>{
+  ['bills','summary'].forEach(t=>{
     document.getElementById('tab-'+t).classList.toggle('active',t===id);
-    document.querySelectorAll('.tab')[['add','sessions','summary'].indexOf(t)].classList.toggle('active',t===id);
+    document.getElementById('nav-'+t).classList.toggle('active',t===id);
   });
-  if(id==='sessions') renderSessions();
-  if(id==='summary') renderSummaryTab();
+  document.querySelectorAll('.tab').forEach((el,i)=>el.classList.toggle('active',['bills','summary'][i]===id));
+  if(id==='summary')renderSummaryTab();
 }
 
-// Init
-document.getElementById('session-date').value=today();
-buildPayerSelect();
-buildChips();
-renderPreview();
-
-document.getElementById('extra-members').addEventListener('input',()=>{ buildPayerSelect(); buildChips(); });
+document.getElementById('m-extra').addEventListener('input',()=>{buildPayer();buildChips();});
+renderBills();
 </script>
 </body>
 </html>
