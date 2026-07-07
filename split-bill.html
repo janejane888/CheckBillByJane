@@ -1,219 +1,342 @@
 <!DOCTYPE html>
-<html lang="th">
+<html lang="th" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="หารบิล">
-<title>หารบิล — เจน & กอหญ้า</title>
+<title>หารบิล</title>
 <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#faf7f2;--surface:#fff;--surface2:#f3ede4;--border:rgba(0,0,0,.07);--border2:rgba(0,0,0,.12);--text:#1a1410;--text2:#7a6e62;--text3:#b0a496;--coral:#ff6b4a;--coral-dim:rgba(255,107,74,.1);--teal:#00a896;--teal-dim:rgba(0,168,150,.1);--gold:#f4a624;--gold-dim:rgba(244,166,36,.1);--rose:#e8547a;--rose-dim:rgba(232,84,122,.1);--purple:#8b5cf6;--purple-dim:rgba(139,92,246,.1);--r:16px;--rs:10px}
+:root{
+  --bg:#faf7f2;--sf:#fff;--sf2:#f3ede4;--sf3:#ede8e0;
+  --bd:rgba(0,0,0,.07);--bd2:rgba(0,0,0,.13);
+  --tx:#1a1410;--tx2:#7a6e62;--tx3:#b0a496;
+  --coral:#ff6b4a;--cd:rgba(255,107,74,.1);
+  --teal:#00a896;--td:rgba(0,168,150,.1);
+  --gold:#f4a624;--gd:rgba(244,166,36,.1);
+  --rose:#e8547a;--rd:rgba(232,84,122,.1);
+  --purple:#8b5cf6;--pd:rgba(139,92,246,.1);
+  --green:#22c55e;--grd:rgba(34,197,94,.1);
+  --blue:#3b82f6;--bld:rgba(59,130,246,.1);
+  --r:16px;--rs:10px;
+}
+[data-theme=dark]{
+  --bg:#0f0f13;--sf:#1a1a22;--sf2:#23232e;--sf3:#2a2a36;
+  --bd:rgba(255,255,255,.07);--bd2:rgba(255,255,255,.13);
+  --tx:#f0f0f5;--tx2:#9090a8;--tx3:#5a5a72;
+}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-body{background:var(--bg);color:var(--text);font-family:'Prompt',sans-serif;min-height:100vh;padding-bottom:90px}
-.header{background:var(--surface);border-bottom:.5px solid var(--border);padding:20px 16px 14px;position:sticky;top:0;z-index:50}
-.header-title{font-size:20px;font-weight:600;letter-spacing:-.3px}
-.header-sub{font-size:12px;color:var(--text3);margin-top:2px}
-.tabs{display:flex;border-bottom:.5px solid var(--border);background:var(--surface);position:sticky;top:57px;z-index:49}
-.tab{flex:1;padding:11px 4px;font-size:13px;font-family:inherit;border:none;background:none;cursor:pointer;color:var(--text3);border-bottom:2px solid transparent;transition:all .2s}
-.tab.active{color:var(--coral);border-bottom-color:var(--coral);font-weight:500}
-.page{display:none;padding:16px;max-width:480px;margin:0 auto}
-.page.active{display:block}
-.card{background:var(--surface);border-radius:var(--r);border:.5px solid var(--border);padding:16px;margin-bottom:12px}
-.card-title{font-size:13px;color:var(--text2);margin-bottom:12px;font-weight:500}
-.bill-card{background:var(--surface);border-radius:var(--r);border:.5px solid var(--border);padding:16px;margin-bottom:12px}
-.bill-card.draft{border-left:3px solid var(--gold)}
-.bill-card.done{border-left:3px solid var(--teal)}
-.bill-header{display:flex;justify-content:space-between;align-items:flex-start}
-.bill-title{font-size:15px;font-weight:500;line-height:1.4}
-.bill-date{font-size:11px;color:var(--text3);margin-top:2px}
-.bill-total{font-size:20px;font-weight:600;color:var(--coral);margin:8px 0 6px}
-.bill-actions{display:flex;gap:8px;margin-top:12px}
-.bill-actions button{flex:1;padding:8px 4px;border-radius:var(--rs);border:.5px solid var(--border2);background:var(--surface2);font-size:12px;font-family:inherit;cursor:pointer;font-weight:500}
-.btn-edit{color:var(--gold)!important;border-color:var(--gold)!important;background:var(--gold-dim)!important}
-.btn-complete{color:var(--teal)!important;border-color:var(--teal)!important;background:var(--teal-dim)!important}
-.btn-del{color:var(--rose)!important;border-color:var(--rose)!important;background:var(--rose-dim)!important}
-.btn-reopen{color:var(--purple)!important;border-color:var(--purple)!important;background:var(--purple-dim)!important}
-.badge{display:inline-block;font-size:10px;padding:2px 8px;border-radius:20px;font-weight:500;margin-left:6px}
-.badge-draft{background:var(--gold-dim);color:var(--gold)}
-.badge-done{background:var(--teal-dim);color:var(--teal)}
-label{font-size:12px;color:var(--text2);display:block;margin-bottom:5px;margin-top:12px}
+body{background:var(--bg);color:var(--tx);font-family:'Prompt',sans-serif;min-height:100vh;padding-bottom:90px;transition:background .2s,color .2s}
+/* Header */
+.hdr{background:var(--sf);border-bottom:.5px solid var(--bd);padding:14px 16px;position:sticky;top:0;z-index:50;display:flex;justify-content:space-between;align-items:center}
+.hdr-title{font-size:18px;font-weight:600}
+.hdr-sub{font-size:11px;color:var(--tx3);margin-top:1px}
+.dark-btn{background:none;border:.5px solid var(--bd2);border-radius:20px;padding:5px 11px;font-size:12px;font-family:inherit;cursor:pointer;color:var(--tx2)}
+/* Tabs */
+.tabs{display:flex;border-bottom:.5px solid var(--bd);background:var(--sf);position:sticky;top:53px;z-index:49}
+.tab{flex:1;padding:10px 4px;font-size:12px;font-family:inherit;border:none;background:none;cursor:pointer;color:var(--tx3);border-bottom:2px solid transparent;white-space:nowrap}
+.tab.on{color:var(--coral);border-bottom-color:var(--coral);font-weight:500}
+/* Pages */
+.pg{display:none;padding:14px;max-width:480px;margin:0 auto}
+.pg.on{display:block}
+/* Cards */
+.card{background:var(--sf);border-radius:var(--r);border:.5px solid var(--bd);padding:14px;margin-bottom:12px}
+.card-t{font-size:13px;color:var(--tx2);margin-bottom:10px;font-weight:500}
+/* Bill card */
+.bc{background:var(--sf);border-radius:var(--r);border:.5px solid var(--bd);padding:14px;margin-bottom:12px}
+.bc.draft{border-left:3px solid var(--gold)}
+.bc.done{border-left:3px solid var(--teal)}
+.bc-name{font-size:15px;font-weight:500}
+.bc-date{font-size:11px;color:var(--tx3);margin-top:1px}
+.bc-total{font-size:20px;font-weight:600;color:var(--coral);margin:6px 0 4px}
+/* Settle block */
+.settle-person{background:var(--sf2);border-radius:var(--rs);padding:12px;margin-top:8px}
+.sp-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.sp-name{font-size:14px;font-weight:500}
+.sp-total{font-size:13px;color:var(--tx2)}
+.sp-row{display:flex;align-items:flex-start;gap:8px;padding:8px 0;border-top:.5px solid var(--bd)}
+.sp-row-left{flex:1;min-width:0}
+.sp-to{font-size:13px;font-weight:500}
+.sp-bank{font-size:11px;color:var(--tx3);margin-top:2px}
+.sp-amt{font-size:15px;font-weight:600;color:var(--rose);white-space:nowrap;margin-right:8px}
+.sp-amt.paid{color:var(--green)}
+.slip-btn{background:none;border:.5px solid var(--bd2);border-radius:8px;padding:5px 10px;font-size:11px;font-family:inherit;cursor:pointer;white-space:nowrap;color:var(--tx2);flex-shrink:0}
+.slip-btn.on{background:var(--grd);color:var(--green);border-color:var(--green)}
+/* Share table */
+.share-table{width:100%;border-collapse:collapse;font-size:12px;margin-top:8px}
+.share-table th{color:var(--tx3);font-weight:500;padding:4px 6px;text-align:left;border-bottom:.5px solid var(--bd)}
+.share-table td{padding:5px 6px;border-bottom:.5px solid var(--bd)}
+.share-table tr:last-child td{border-bottom:none}
+.plus{color:var(--teal);font-weight:500}
+.minus{color:var(--rose);font-weight:500}
+/* Bill action buttons */
+.bacts{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
+.bacts button{padding:7px 10px;border-radius:var(--rs);border:.5px solid var(--bd2);background:var(--sf2);font-size:11px;font-family:inherit;cursor:pointer;font-weight:500;white-space:nowrap}
+.b-edit{color:var(--gold)!important;border-color:var(--gold)!important;background:var(--gd)!important}
+.b-done{color:var(--teal)!important;border-color:var(--teal)!important;background:var(--td)!important}
+.b-del{color:var(--rose)!important;border-color:var(--rose)!important;background:var(--rd)!important}
+.b-reopen{color:var(--purple)!important;border-color:var(--purple)!important;background:var(--pd)!important}
+.b-line{color:var(--green)!important;border-color:var(--green)!important;background:var(--grd)!important}
+/* Badges */
+.badge{display:inline-block;font-size:10px;padding:2px 7px;border-radius:20px;font-weight:500;margin-left:5px}
+.b-draft{background:var(--gd);color:var(--gold)}
+.b-done2{background:var(--td);color:var(--teal)}
+/* Form */
+label{font-size:12px;color:var(--tx2);display:block;margin-bottom:4px;margin-top:11px}
 label:first-child{margin-top:0}
-input,select{width:100%;background:var(--surface2);border:.5px solid var(--border2);border-radius:var(--rs);color:var(--text);font-size:15px;font-family:inherit;padding:10px 12px;outline:none;-webkit-appearance:none}
+input,select{width:100%;background:var(--sf2);border:.5px solid var(--bd2);border-radius:var(--rs);color:var(--tx);font-size:14px;font-family:inherit;padding:9px 11px;outline:none;-webkit-appearance:none}
 input:focus,select:focus{border-color:var(--coral)}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.btn{width:100%;padding:13px;border-radius:var(--rs);border:none;font-size:15px;font-weight:500;font-family:inherit;cursor:pointer;margin-top:12px;transition:opacity .15s,transform .1s}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.btn{width:100%;padding:12px;border-radius:var(--rs);border:none;font-size:14px;font-weight:500;font-family:inherit;cursor:pointer;margin-top:10px;transition:opacity .15s,transform .1s}
 .btn:active{transform:scale(.97);opacity:.85}
 .btn-coral{background:var(--coral);color:#fff}
 .btn-teal{background:var(--teal);color:#fff}
 .btn-gold{background:var(--gold);color:#fff}
-.btn-ghost{background:var(--surface2);color:var(--text2);border:.5px solid var(--border2);margin-top:8px}
-.item-row{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:.5px solid var(--border);font-size:13px}
+.btn-ghost{background:var(--sf2);color:var(--tx2);border:.5px solid var(--bd2);margin-top:8px}
+/* Item rows */
+.item-row{display:flex;align-items:flex-start;padding:8px 0;border-bottom:.5px solid var(--bd);gap:6px}
 .item-row:last-child{border-bottom:none}
-.item-who{display:inline-block;font-size:10px;padding:2px 7px;border-radius:20px;font-weight:500;margin-right:6px;white-space:nowrap;flex-shrink:0}
-.who-jane{background:var(--coral-dim);color:var(--coral)}
-.who-korya{background:var(--teal-dim);color:var(--teal)}
-.who-other{background:var(--gold-dim);color:var(--gold)}
-.item-name{color:var(--text);flex:1;min-width:0}
-.item-amt{font-weight:500;white-space:nowrap;margin-left:8px}
-.del-btn{background:none;border:none;cursor:pointer;color:var(--text3);padding:4px 6px;border-radius:6px;font-size:14px;margin-left:4px;flex-shrink:0}
-.member-chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
-.chip{padding:6px 14px;border-radius:20px;font-size:13px;font-weight:500;cursor:pointer;border:1.5px solid transparent;font-family:inherit}
-.chip-jane{background:var(--coral-dim);color:var(--coral)}
-.chip-jane.selected{border-color:var(--coral)}
-.chip-korya{background:var(--teal-dim);color:var(--teal)}
-.chip-korya.selected{border-color:var(--teal)}
-.chip-other{background:var(--gold-dim);color:var(--gold)}
-.chip-other.selected{border-color:var(--gold)}
-.settle-box{border-radius:var(--rs);padding:10px 12px;margin-top:8px;display:flex;align-items:center;gap:10px}
-.settle-box.owe{background:var(--rose-dim)}
-.settle-box.even{background:var(--teal-dim)}
-.settle-text{font-size:14px;font-weight:500}
-.settle-text span{font-size:16px;font-weight:600}
-.summary-bar{background:var(--surface);border-radius:var(--r);border:.5px solid var(--border);padding:14px 16px;margin-bottom:12px;display:flex;gap:16px;overflow-x:auto}
-.sum-item{text-align:center;min-width:70px}
-.sum-label{font-size:10px;color:var(--text3);margin-bottom:4px;text-transform:uppercase}
-.sum-val{font-size:18px;font-weight:600}
-.sum-val.coral{color:var(--coral)}
-.sum-val.teal{color:var(--teal)}
-.sum-val.gold{color:var(--gold)}
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:200;overflow-y:auto;-webkit-overflow-scrolling:touch}
-.modal-overlay.active{display:block}
-.modal{background:var(--bg);border-radius:var(--r) var(--r) 0 0;max-width:480px;margin:60px auto 0;padding:20px;min-height:calc(100vh - 60px)}
-.modal-title{font-size:16px;font-weight:600;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center}
-.modal-close{background:none;border:none;font-size:22px;cursor:pointer;color:var(--text3);padding:4px}
-.section-label{font-size:12px;color:var(--text3);margin-bottom:8px;padding:0 2px}
-.nav{position:fixed;bottom:0;left:0;right:0;background:rgba(250,247,242,.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:.5px solid var(--border2);display:flex;z-index:100;padding-bottom:env(safe-area-inset-bottom)}
-.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;padding:10px 4px 8px;cursor:pointer;color:var(--text3);font-size:10px;gap:3px;font-family:inherit;border:none;background:none}
-.nav-item.active{color:var(--coral)}
-.nav-item svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-.empty{text-align:center;color:var(--text3);font-size:13px;padding:28px 0}
-.empty-icon{font-size:34px;margin-bottom:8px}
-hr{border:none;border-top:.5px solid var(--border);margin:12px 0}
-#toast{position:fixed;bottom:95px;left:50%;transform:translateX(-50%) translateY(10px);background:var(--text);color:var(--bg);font-size:13px;padding:10px 20px;border-radius:20px;opacity:0;pointer-events:none;transition:all .25s;z-index:400;white-space:nowrap}
-#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.iw{font-size:10px;padding:2px 7px;border-radius:20px;font-weight:500;white-space:nowrap;flex-shrink:0;margin-top:2px}
+.ib{flex:1;min-width:0}
+.in{font-size:13px}
+.is{font-size:10px;color:var(--tx3);margin-top:1px}
+.ia{font-size:13px;font-weight:500;white-space:nowrap;flex-shrink:0}
+.icon-btn{background:none;border:none;cursor:pointer;color:var(--tx3);padding:3px 5px;border-radius:6px;font-size:13px}
+/* Chips */
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px}
+.chip{padding:5px 11px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:1.5px solid transparent;font-family:inherit}
+/* Summary */
+.sum-bar{background:var(--sf);border-radius:var(--r);border:.5px solid var(--bd);padding:12px 14px;margin-bottom:12px;display:flex;gap:10px;overflow-x:auto}
+.si{text-align:center;min-width:68px}
+.sl{font-size:10px;color:var(--tx3);margin-bottom:3px;text-transform:uppercase}
+.sv{font-size:16px;font-weight:600}
+.sv.c{color:var(--coral)}.sv.t{color:var(--teal)}.sv.g{color:var(--gold)}
+/* Member pill in settings */
+.mem-card{background:var(--sf2);border-radius:var(--rs);padding:10px 12px;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.mem-info{flex:1;min-width:0}
+.mem-name{font-size:13px;font-weight:500}
+.mem-bank{font-size:11px;color:var(--tx3);margin-top:1px}
+/* Overlay / Modal */
+.ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:200;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.ov.on{display:block}
+.modal{background:var(--bg);border-radius:var(--r) var(--r) 0 0;max-width:480px;margin:48px auto 0;padding:18px;min-height:calc(100vh - 48px)}
+.modal-t{font-size:15px;font-weight:600;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center}
+.mc{background:none;border:none;font-size:22px;cursor:pointer;color:var(--tx3);padding:2px 5px}
+/* Fav chip */
+.fav-chip{display:inline-flex;align-items:center;gap:4px;padding:5px 10px;border-radius:20px;background:var(--sf2);border:.5px solid var(--bd2);font-size:12px;cursor:pointer;margin:3px;font-family:inherit;color:var(--tx)}
+/* Sec label */
+.sec-l{font-size:11px;color:var(--tx3);margin-bottom:7px;padding:0 2px;font-weight:500;text-transform:uppercase;letter-spacing:.3px}
+/* Nav */
+.nav{position:fixed;bottom:0;left:0;right:0;background:var(--sf);border-top:.5px solid var(--bd2);display:flex;z-index:100;padding-bottom:env(safe-area-inset-bottom)}
+.nb{flex:1;display:flex;flex-direction:column;align-items:center;padding:9px 4px 7px;cursor:pointer;color:var(--tx3);font-size:10px;gap:3px;font-family:inherit;border:none;background:none}
+.nb.on{color:var(--coral)}
+.nb svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.empty{text-align:center;color:var(--tx3);font-size:13px;padding:24px 0}
+hr{border:none;border-top:.5px solid var(--bd);margin:10px 0}
+#toast{position:fixed;bottom:88px;left:50%;transform:translateX(-50%) translateY(10px);background:var(--tx);color:var(--bg);font-size:13px;padding:9px 18px;border-radius:20px;opacity:0;pointer-events:none;transition:all .25s;z-index:400;white-space:nowrap}
+#toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
 </style>
 </head>
 <body>
 <div id="toast"></div>
 
-<div class="header">
-  <div class="header-title">💸 หารบิล</div>
-  <div class="header-sub">เจน & กอหญ้า</div>
+<div class="hdr">
+  <div><div class="hdr-title">💸 หารบิล</div><div class="hdr-sub" id="hdr-sub">จัดการค่าใช้จ่ายกลุ่ม</div></div>
+  <button class="dark-btn" onclick="toggleDark()" id="dark-btn">🌙</button>
 </div>
 
 <div class="tabs">
-  <button class="tab active" onclick="showTab('bills')">📋 บิลทั้งหมด</button>
-  <button class="tab" onclick="showTab('summary')">📊 สรุปรวม</button>
+  <button class="tab on" onclick="showTab('bills')">📋 บิล</button>
+  <button class="tab" onclick="showTab('summary')">📊 สรุป</button>
+  <button class="tab" onclick="showTab('members')">👥 สมาชิก</button>
+  <button class="tab" onclick="showTab('settings')">⚙️ ตั้งค่า</button>
 </div>
 
-<!-- BILLS TAB -->
-<div id="tab-bills" class="page active">
-  <button class="btn btn-coral" style="margin-bottom:16px;margin-top:0" onclick="openNewBill()">+ สร้างบิลใหม่</button>
-  <div id="draft-section">
-    <div class="section-label">📝 Draft — ยังไม่เสร็จ</div>
-    <div id="draft-list"></div>
+<!-- BILLS -->
+<div id="pg-bills" class="pg on">
+  <button class="btn btn-coral" style="margin-bottom:12px;margin-top:0" onclick="openNewBill()">+ สร้างบิลใหม่</button>
+  <div id="draft-sec"><div class="sec-l">📝 Draft</div><div id="draft-list"></div></div>
+  <div id="done-sec" style="margin-top:12px"><div class="sec-l">✅ เสร็จแล้ว</div><div id="done-list"></div></div>
+</div>
+
+<!-- SUMMARY -->
+<div id="pg-summary" class="pg">
+  <div class="sum-bar" id="sum-bar"></div>
+  <div class="card" id="sum-settle"></div>
+  <div id="sum-list"></div>
+</div>
+
+<!-- MEMBERS -->
+<div id="pg-members" class="pg">
+  <div class="card">
+    <div class="card-t">👥 สมาชิกทั้งหมด</div>
+    <div id="mem-list"></div>
+    <hr>
+    <label>ชื่อ</label><input type="text" id="new-mem-name" placeholder="ชื่อสมาชิก">
+    <div class="row2">
+      <div><label>พร้อมเพย์ / เลขบัญชี</label><input type="text" id="new-mem-pp" placeholder="0812345678"></div>
+      <div><label>ธนาคาร</label><input type="text" id="new-mem-bank" placeholder="กสิกร"></div>
+    </div>
+    <button class="btn btn-teal" onclick="addMember()">+ เพิ่มสมาชิก</button>
   </div>
-  <div id="done-section" style="margin-top:16px">
-    <div class="section-label">✅ เสร็จแล้ว</div>
-    <div id="done-list"></div>
+</div>
+
+<!-- SETTINGS -->
+<div id="pg-settings" class="pg">
+  <div class="card">
+    <div class="card-t">⭐ รายการโปรด</div>
+    <div id="fav-list-cfg"></div>
+    <hr>
+    <label>ชื่อรายการ</label><input type="text" id="fav-name" placeholder="เช่น ค่าอาหาร">
+    <div class="row2">
+      <div><label>ใครจ่ายปกติ</label><input type="text" id="fav-payer" placeholder="เจน"></div>
+      <div><label>ยอดปกติ (บาท)</label><input type="number" id="fav-amt" placeholder="0" inputmode="decimal"></div>
+    </div>
+    <button class="btn btn-gold" onclick="addFav()">+ เพิ่มรายการโปรด</button>
+  </div>
+  <div class="card">
+    <div class="card-t">👥 กลุ่ม Preset</div>
+    <div id="preset-list-cfg"></div>
+    <hr>
+    <label>ชื่อกลุ่ม</label><input type="text" id="pre-name" placeholder="เช่น กลุ่มเพื่อน">
+    <label>เลือกสมาชิก</label>
+    <div id="pre-chips" class="chips" style="margin-top:6px"></div>
+    <button class="btn btn-teal" onclick="addPreset()">+ เพิ่มกลุ่ม</button>
   </div>
 </div>
 
-<!-- SUMMARY TAB -->
-<div id="tab-summary" class="page">
-  <div class="summary-bar" id="summary-totals"></div>
-  <div class="card" id="summary-settle"></div>
-  <div id="summary-list"></div>
-</div>
-
-<!-- MODAL -->
-<div class="modal-overlay" id="modal">
+<!-- BILL MODAL -->
+<div class="ov" id="bill-modal">
   <div class="modal">
-    <div class="modal-title">
-      <span id="modal-title-text">✏️ บิลใหม่</span>
-      <button class="modal-close" onclick="closeModal()">✕</button>
-    </div>
-
+    <div class="modal-t"><span id="modal-title">✏️ บิลใหม่</span><button class="mc" onclick="closeModal()">✕</button></div>
     <div class="card">
-      <label>ชื่อบิล</label>
-      <input type="text" id="m-name" placeholder="เช่น ทริปเชียงใหม่, ข้าวเย็น MBK">
-      <label>วันที่เริ่ม</label>
-      <input type="date" id="m-date">
-      <label>สมาชิกเพิ่มเติม (นอกจากเจน & กอหญ้า)</label>
-      <input type="text" id="m-extra" placeholder="เช่น มิ้น, เบส  (คั่นด้วยจุลภาค)">
+      <label>ชื่อบิล</label><input type="text" id="m-name" placeholder="เช่น ทริปเชียงใหม่">
+      <label>วันที่</label><input type="date" id="m-date">
+      <label>สมาชิก — เลือก Preset</label>
+      <div id="preset-chips" style="margin:6px 0 4px"></div>
+      <label>หรือเลือกทีละคน</label>
+      <div id="m-member-chips" class="chips" style="margin-top:6px"></div>
     </div>
-
+    <div class="card" id="fav-quick-card">
+      <div class="card-t">⭐ รายการโปรด</div>
+      <div id="fav-quick"></div>
+    </div>
     <div class="card">
-      <div class="card-title">➕ เพิ่มรายการ</div>
-      <label>รายการ</label>
-      <input type="text" id="m-item-name" placeholder="เช่น ค่าอาหาร, ที่พัก, ตั๋ว">
+      <div class="card-t">➕ เพิ่มรายการ</div>
+      <label>รายการ</label><input type="text" id="m-iname" placeholder="เช่น ค่าอาหาร, ที่พัก">
       <div class="row2">
-        <div><label>ใครจ่าย</label><select id="m-item-payer"></select></div>
-        <div><label>จำนวน (บาท)</label><input type="number" id="m-item-amt" placeholder="0" inputmode="decimal"></div>
+        <div><label>ใครจ่าย</label><select id="m-ipayer"></select></div>
+        <div><label>จำนวน (บาท)</label><input type="number" id="m-iamt" placeholder="0" inputmode="decimal"></div>
       </div>
-      <label>ใครร่วมจ่ายบ้าง</label>
-      <div class="member-chips" id="m-chips"></div>
+      <label>ใครร่วมจ่าย</label>
+      <div id="m-ichips" class="chips" style="margin-top:6px"></div>
       <button class="btn btn-coral" onclick="addModalItem()">+ เพิ่มรายการนี้</button>
     </div>
-
     <div class="card">
-      <div class="card-title">🧾 รายการในบิล</div>
+      <div class="card-t">🧾 รายการในบิล</div>
       <div id="m-item-list"></div>
-      <div id="m-settle"></div>
+      <div id="m-settle-preview"></div>
     </div>
-
-    <button class="btn btn-gold" onclick="saveDraft()">💾 บันทึก Draft (ยังไม่เสร็จ)</button>
-    <button class="btn btn-teal" onclick="completeBill()">✓ ปิดบิลนี้ (เสร็จแล้ว)</button>
+    <button class="btn btn-gold" onclick="saveDraft()">💾 บันทึก Draft</button>
+    <button class="btn btn-teal" onclick="completeBill()">✓ ปิดบิล</button>
     <button class="btn btn-ghost" onclick="closeModal()">ยกเลิก</button>
   </div>
 </div>
 
+<!-- EDIT MEMBER MODAL -->
+<div class="ov" id="mem-modal">
+  <div class="modal" style="min-height:auto;margin-top:100px">
+    <div class="modal-t"><span>✏️ แก้ไขสมาชิก</span><button class="mc" onclick="document.getElementById('mem-modal').classList.remove('on')">✕</button></div>
+    <input type="hidden" id="em-id">
+    <label>ชื่อ</label><input type="text" id="em-name">
+    <div class="row2">
+      <div><label>พร้อมเพย์ / เลขบัญชี</label><input type="text" id="em-pp" placeholder="0812345678"></div>
+      <div><label>ธนาคาร</label><input type="text" id="em-bank" placeholder="กสิกร"></div>
+    </div>
+    <button class="btn btn-coral" onclick="saveEditMember()" style="margin-top:12px">บันทึก</button>
+    <button class="btn btn-ghost" onclick="document.getElementById('mem-modal').classList.remove('on')">ยกเลิก</button>
+  </div>
+</div>
+
+<!-- CONFIRM DELETE MODAL -->
+<div class="ov" id="confirm-modal">
+  <div class="modal" style="min-height:auto;margin-top:200px;padding:20px">
+    <div style="font-size:15px;font-weight:500;margin-bottom:8px">ลบสมาชิกคนนี้?</div>
+    <div id="confirm-msg" style="font-size:13px;color:var(--tx2);margin-bottom:16px"></div>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-ghost" style="margin-top:0" onclick="document.getElementById('confirm-modal').classList.remove('on')">ยกเลิก</button>
+      <button class="btn" style="margin-top:0;background:var(--rose);color:#fff" id="confirm-ok-btn">ลบ</button>
+    </div>
+  </div>
+</div>
+
+<!-- EDIT ITEM MODAL -->
+<div class="ov" id="ei-modal">
+  <div class="modal" style="min-height:auto;margin-top:100px">
+    <div class="modal-t"><span>✏️ แก้ไขรายการ</span><button class="mc" onclick="document.getElementById('ei-modal').classList.remove('on')">✕</button></div>
+    <label>ชื่อ</label><input type="text" id="ei-name">
+    <div class="row2">
+      <div><label>ใครจ่าย</label><select id="ei-payer"></select></div>
+      <div><label>จำนวน (บาท)</label><input type="number" id="ei-amt" inputmode="decimal"></div>
+    </div>
+    <label>ใครร่วมจ่าย</label>
+    <div id="ei-chips" class="chips" style="margin-top:6px"></div>
+    <button class="btn btn-coral" onclick="saveEditItem()" style="margin-top:12px">บันทึก</button>
+    <button class="btn btn-ghost" onclick="document.getElementById('ei-modal').classList.remove('on')">ยกเลิก</button>
+  </div>
+</div>
+
 <nav class="nav">
-  <button class="nav-item active" onclick="showTab('bills')" id="nav-bills">
-    <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-    บิล
-  </button>
-  <button class="nav-item" onclick="showTab('summary')" id="nav-summary">
-    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-    สรุป
-  </button>
+  <button class="nb on" onclick="showTab('bills')" id="nb-bills"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>บิล</button>
+  <button class="nb" onclick="showTab('summary')" id="nb-summary"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>สรุป</button>
+  <button class="nb" onclick="showTab('members')" id="nb-members"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>สมาชิก</button>
+  <button class="nb" onclick="showTab('settings')" id="nb-settings"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>ตั้งค่า</button>
 </nav>
 
 <script>
-const K='splitv2_bills';
-let bills=JSON.parse(localStorage.getItem(K)||'[]');
-let editingId=null;
-let modalItems=[];
+// ── Keys ──
+const KK={bills:'sb4_bills',members:'sb4_members',favs:'sb4_favs',presets:'sb4_presets',dark:'sb4_dark'};
+let bills=JSON.parse(localStorage.getItem(KK.bills)||'[]');
+let members=JSON.parse(localStorage.getItem(KK.members)||JSON.stringify([
+  {id:'jane',name:'เจน',pp:'',bank:''},
+  {id:'korya',name:'กอหญ้า',pp:'',bank:''}
+]));
+let favs=JSON.parse(localStorage.getItem(KK.favs)||'[]');
+let presets=JSON.parse(localStorage.getItem(KK.presets)||'[]');
 
-function save(){localStorage.setItem(K,JSON.stringify(bills));}
+// ── Utils ──
+function sv(k,v){localStorage.setItem(k,JSON.stringify(v));}
 function fmt(n){return Math.round(n).toLocaleString('th-TH');}
-function fmtD(n){return n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g,',');}
+function fmtD(n){return parseFloat(n).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g,',');}
 function today(){return new Date().toISOString().split('T')[0];}
-function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2000);}
-function whoClass(n){return n==='เจน'?'who-jane':n==='กอหญ้า'?'who-korya':'who-other';}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),2200);}
+function getMember(name){return members.find(m=>m.name===name);}
+function memberColor(name){
+  const idx=members.findIndex(m=>m.name===name);
+  const colors=[['#ff6b4a','rgba(255,107,74,.12)'],['#00a896','rgba(0,168,150,.12)'],['#f4a624','rgba(244,166,36,.12)'],['#8b5cf6','rgba(139,92,246,.12)'],['#3b82f6','rgba(59,130,246,.12)'],['#e8547a','rgba(232,84,122,.12)'],['#22c55e','rgba(34,197,94,.12)'],['#f97316','rgba(249,115,22,.12)']];
+  const c=colors[idx%colors.length];
+  return{color:c[0],bg:c[1]};
+}
 
-function getModalMembers(){
-  const ex=(document.getElementById('m-extra').value||'').split(',').map(s=>s.trim()).filter(Boolean);
-  return ['เจน','กอหญ้า',...ex];
+// ── Dark mode ──
+function toggleDark(){
+  const dark=document.documentElement.getAttribute('data-theme')==='dark';
+  document.documentElement.setAttribute('data-theme',dark?'light':'dark');
+  document.getElementById('dark-btn').textContent=dark?'🌙':'☀️';
+  sv(KK.dark,!dark);
 }
-function buildPayer(){
-  document.getElementById('m-item-payer').innerHTML=getModalMembers().map(m=>`<option>${m}</option>`).join('');
+if(JSON.parse(localStorage.getItem(KK.dark)||'false')){
+  document.documentElement.setAttribute('data-theme','dark');
+  document.getElementById('dark-btn').textContent='☀️';
 }
-function buildChips(){
-  const prev=[...document.querySelectorAll('#m-chips .chip.selected')].map(c=>c.textContent);
-  document.getElementById('m-chips').innerHTML=getModalMembers().map(m=>{
-    const cls=m==='เจน'?'chip-jane':m==='กอหญ้า'?'chip-korya':'chip-other';
-    const sel=prev.length===0||prev.includes(m)?'selected':'';
-    return `<button class="chip ${cls} ${sel}" onclick="this.classList.toggle('selected')">${m}</button>`;
-  }).join('');
-}
-function getChips(){return[...document.querySelectorAll('#m-chips .chip.selected')].map(c=>c.textContent);}
 
-function calcSettle(items,members){
+// ── Calc ──
+function calcSettle(items,mems){
   const paid={},share={};
-  members.forEach(m=>{paid[m]=0;share[m]=0;});
+  mems.forEach(m=>{paid[m]=0;share[m]=0;});
   items.forEach(i=>{
     const n=i.participants.length||1,per=i.amount/n;
     paid[i.payer]=(paid[i.payer]||0)+i.amount;
@@ -224,175 +347,456 @@ function calcSettle(items,members){
   return{paid,share,net};
 }
 function simplifyDebts(net){
-  const cred=[],debt=[];
-  Object.entries(net).forEach(([m,v])=>{if(v>0.5)cred.push({m,v});else if(v<-0.5)debt.push({m,v:-v});});
+  const cr=[],db=[];
+  Object.entries(net).forEach(([m,v])=>{if(v>0.5)cr.push({m,v:+v});else if(v<-0.5)db.push({m,v:-v});});
   const txns=[];let ci=0,di=0;
-  while(ci<cred.length&&di<debt.length){
-    const amt=Math.min(cred[ci].v,debt[di].v);
-    txns.push({from:debt[di].m,to:cred[ci].m,amt});
-    cred[ci].v-=amt;debt[di].v-=amt;
-    if(cred[ci].v<0.5)ci++;if(debt[di].v<0.5)di++;
+  while(ci<cr.length&&di<db.length){
+    const a=Math.min(cr[ci].v,db[di].v);
+    txns.push({from:db[di].m,to:cr[ci].m,amt:a});
+    cr[ci].v-=a;db[di].v-=a;
+    if(cr[ci].v<0.5)ci++;if(db[di].v<0.5)di++;
   }
   return txns;
 }
 
+// ── Modal state ──
+let editingBillId=null,modalItems=[],editingItemId=null,modalSelectedMembers=[];
+
+function getModalMembers(){return modalSelectedMembers;}
+
+function buildModalMemberChips(){
+  const all=members.map(m=>m.name);
+  const el=document.getElementById('m-member-chips');
+  el.innerHTML=all.map(name=>{
+    const c=memberColor(name);const on=modalSelectedMembers.includes(name);
+    return`<button class="chip ${on?'on':''}" style="background:${c.bg};color:${c.color};${on?'border-color:'+c.color:''}" onclick="toggleModalMember('${name}')">${name}</button>`;
+  }).join('');
+}
+function toggleModalMember(name){
+  if(modalSelectedMembers.includes(name))modalSelectedMembers=modalSelectedMembers.filter(m=>m!==name);
+  else modalSelectedMembers.push(name);
+  buildModalMemberChips();
+  buildItemPayerSelect();
+  buildItemChips('m-ichips',modalSelectedMembers,true);
+}
+
+function buildItemPayerSelect(){
+  const mems=getModalMembers();
+  document.getElementById('m-ipayer').innerHTML=mems.map(m=>`<option>${m}</option>`).join('');
+}
+function buildItemChips(cid,mems,allOn){
+  const prev=allOn?mems:[...document.querySelectorAll(`#${cid} .chip.on`)].map(c=>c.textContent);
+  document.getElementById(cid).innerHTML=mems.map(name=>{
+    const c=memberColor(name);const on=prev.includes(name);
+    return`<button class="chip ${on?'on':''}" style="background:${c.bg};color:${c.color};${on?'border-color:'+c.color:''}" onclick="this.classList.toggle('on');this.style.borderColor=this.classList.contains('on')?'${c.color}':'transparent'">${name}</button>`;
+  }).join('');
+}
+function getChips(cid){return[...document.querySelectorAll(`#${cid} .chip.on`)].map(c=>c.textContent);}
+
+// Preset chips
+function buildPresetChipsInModal(){
+  const el=document.getElementById('preset-chips');
+  if(!presets.length){el.innerHTML='<span style="font-size:12px;color:var(--tx3)">ยังไม่มี Preset — ตั้งค่าได้ในแท็บ ⚙️</span>';return;}
+  el.innerHTML=presets.map(p=>`<button class="fav-chip" onclick="applyPreset('${p.id}')">👥 ${p.name}</button>`).join('');
+}
+function applyPreset(id){
+  const p=presets.find(x=>x.id===id);if(!p)return;
+  modalSelectedMembers=[...p.members];
+  buildModalMemberChips();buildItemPayerSelect();buildItemChips('m-ichips',modalSelectedMembers,true);
+  toast('โหลดกลุ่ม '+p.name+' ✓');
+}
+
+// Fav quick
+function buildFavQuick(){
+  const el=document.getElementById('fav-quick');
+  if(!favs.length){document.getElementById('fav-quick-card').style.display='none';return;}
+  document.getElementById('fav-quick-card').style.display='';
+  el.innerHTML=favs.map(f=>`<button class="fav-chip" onclick="addFavItem('${f.id}')">⭐ ${f.name}${f.amt?' ('+fmt(f.amt)+')':''}</button>`).join('');
+}
+function addFavItem(id){
+  const f=favs.find(x=>x.id===id);if(!f)return;
+  const mems=getModalMembers();
+  if(!mems.length)return toast('เลือกสมาชิกก่อนนะ');
+  const payer=f.payer&&mems.includes(f.payer)?f.payer:mems[0];
+  modalItems.push({id:Date.now(),name:f.name,payer,amount:parseFloat(f.amt)||0,participants:[...mems]});
+  renderModalItems();toast('เพิ่ม '+f.name+' ✓');
+}
+
+// Add item
 function addModalItem(){
-  const name=document.getElementById('m-item-name').value.trim();
-  const amt=parseFloat(document.getElementById('m-item-amt').value);
-  const payer=document.getElementById('m-item-payer').value;
-  const participants=getChips();
+  const name=document.getElementById('m-iname').value.trim();
+  const amt=parseFloat(document.getElementById('m-iamt').value);
+  const payer=document.getElementById('m-ipayer').value;
+  const participants=getChips('m-ichips');
   if(!name)return toast('ใส่ชื่อรายการด้วยนะ');
   if(!amt||amt<=0)return toast('ใส่จำนวนเงินด้วยนะ');
   if(!participants.length)return toast('เลือกคนร่วมจ่ายด้วยนะ');
   modalItems.push({id:Date.now(),name,payer,amount:amt,participants});
-  document.getElementById('m-item-name').value='';
-  document.getElementById('m-item-amt').value='';
-  buildChips();
-  renderModalItems();
-  toast('เพิ่มแล้ว ✓');
+  document.getElementById('m-iname').value='';
+  document.getElementById('m-iamt').value='';
+  buildItemChips('m-ichips',getModalMembers(),true);
+  renderModalItems();toast('เพิ่มแล้ว ✓');
 }
 
-function delModalItem(id){
-  modalItems=modalItems.filter(i=>i.id!==id);
-  renderModalItems();
+// Edit item
+function openEditItem(id){
+  const item=modalItems.find(i=>i.id===id);if(!item)return;
+  editingItemId=id;
+  const mems=getModalMembers();
+  document.getElementById('ei-name').value=item.name;
+  document.getElementById('ei-amt').value=item.amount;
+  document.getElementById('ei-payer').innerHTML=mems.map(m=>`<option ${m===item.payer?'selected':''}>${m}</option>`).join('');
+  buildItemChips('ei-chips',mems,false);
+  item.participants.forEach(p=>{
+    const btn=[...document.querySelectorAll('#ei-chips .chip')].find(b=>b.textContent===p);
+    if(btn){btn.classList.add('on');const c=memberColor(p);btn.style.borderColor=c.color;}
+  });
+  document.getElementById('ei-modal').classList.add('on');
 }
+function saveEditItem(){
+  const item=modalItems.find(i=>i.id===editingItemId);if(!item)return;
+  const participants=getChips('ei-chips');
+  if(!participants.length)return toast('เลือกคนร่วมจ่ายด้วยนะ');
+  item.name=document.getElementById('ei-name').value.trim()||item.name;
+  item.amount=parseFloat(document.getElementById('ei-amt').value)||item.amount;
+  item.payer=document.getElementById('ei-payer').value;
+  item.participants=participants;
+  document.getElementById('ei-modal').classList.remove('on');
+  renderModalItems();toast('แก้ไขแล้ว ✓');
+}
+function delModalItem(id){modalItems=modalItems.filter(i=>i.id!==id);renderModalItems();}
 
 function renderModalItems(){
   const el=document.getElementById('m-item-list');
-  const se=document.getElementById('m-settle');
-  if(!modalItems.length){el.innerHTML='<div class="empty" style="padding:12px 0">ยังไม่มีรายการ</div>';se.innerHTML='';return;}
+  const sp=document.getElementById('m-settle-preview');
+  if(!modalItems.length){el.innerHTML='<div class="empty" style="padding:10px 0">ยังไม่มีรายการ</div>';sp.innerHTML='';return;}
   const total=modalItems.reduce((s,i)=>s+i.amount,0);
-  el.innerHTML=modalItems.map(i=>`
-    <div class="item-row">
-      <span class="item-who ${whoClass(i.payer)}">${i.payer}</span>
-      <span class="item-name">${i.name} <span style="font-size:10px;color:var(--text3)">(${i.participants.join(', ')})</span></span>
-      <span class="item-amt">${fmt(i.amount)}</span>
-      <button class="del-btn" onclick="delModalItem(${i.id})">✕</button>
-    </div>`).join('');
-  el.innerHTML+=`<div class="item-row" style="font-weight:500"><span style="flex:1;color:var(--text2)">รวม</span><span style="color:var(--coral)">${fmt(total)} บ.</span></div>`;
-  const allM=[...new Set(['เจน','กอหญ้า',...modalItems.map(i=>i.payer),...modalItems.flatMap(i=>i.participants)])];
-  const txns=simplifyDebts(calcSettle(modalItems,allM).net);
-  se.innerHTML=txns.length?txns.map(t=>`<div class="settle-box owe"><div style="font-size:18px">💸</div><div class="settle-text">${t.from} โอน ${t.to} <span>${fmtD(t.amt)} บ.</span></div></div>`).join(''):`<div class="settle-box even"><div style="font-size:18px">✅</div><div class="settle-text">เท่ากันพอดี!</div></div>`;
+  el.innerHTML=modalItems.map(i=>{
+    const c=memberColor(i.payer);
+    return`<div class="item-row">
+      <span class="iw" style="background:${c.bg};color:${c.color}">${i.payer}</span>
+      <div class="ib"><div class="in">${i.name}</div><div class="is">${i.participants.join(', ')}</div></div>
+      <span class="ia">${fmt(i.amount)}</span>
+      <button class="icon-btn" onclick="openEditItem(${i.id})">✏️</button>
+      <button class="icon-btn" onclick="delModalItem(${i.id})">✕</button>
+    </div>`;}).join('');
+  el.innerHTML+=`<div class="item-row" style="font-weight:500"><span style="flex:1;color:var(--tx2)">รวม</span><span style="color:var(--coral)">${fmt(total)} บ.</span></div>`;
+  // Settlement preview
+  const allM=[...new Set(modalItems.map(i=>i.payer).concat(modalItems.flatMap(i=>i.participants)))];
+  const {net,share}=calcSettle(modalItems,allM);
+  const perPerson=total/allM.length;
+  // Group by debtor
+  const txns=simplifyDebts(net);
+  const byDebtor={};
+  txns.forEach(t=>{if(!byDebtor[t.from])byDebtor[t.from]=[];byDebtor[t.from].push(t);});
+  sp.innerHTML=Object.keys(byDebtor).length?`<div style="margin-top:10px">`+Object.entries(byDebtor).map(([person,rows])=>`
+    <div style="background:var(--sf2);border-radius:var(--rs);padding:10px;margin-top:6px">
+      <div style="font-size:12px;font-weight:500;color:var(--tx2);margin-bottom:6px">${person} ต้องโอนรวม ${fmtD(rows.reduce((s,r)=>s+r.amt,0))} บ.</div>
+      ${rows.map(r=>`<div style="display:flex;justify-content:space-between;font-size:13px;padding:3px 0">
+        <span>→ ${r.to}</span><span style="font-weight:600;color:var(--rose)">${fmtD(r.amt)} บ.</span>
+      </div>`).join('')}
+    </div>`).join('')+`</div>`:
+    `<div style="background:var(--td);border-radius:var(--rs);padding:10px;margin-top:8px;text-align:center;font-size:13px;color:var(--teal)">✅ เท่ากันพอดี!</div>`;
 }
 
+// ── Bill CRUD ──
 function openNewBill(){
-  editingId=null; modalItems=[];
+  editingBillId=null;modalItems=[];
+  modalSelectedMembers=members.map(m=>m.name);
   document.getElementById('m-name').value='';
   document.getElementById('m-date').value=today();
-  document.getElementById('m-extra').value='';
-  document.getElementById('modal-title-text').textContent='✏️ บิลใหม่';
-  buildPayer();buildChips();renderModalItems();
-  document.getElementById('modal').classList.add('active');
-  document.getElementById('modal').scrollTop=0;
+  document.getElementById('modal-title').textContent='✏️ บิลใหม่';
+  buildPresetChipsInModal();buildFavQuick();
+  buildModalMemberChips();buildItemPayerSelect();
+  buildItemChips('m-ichips',modalSelectedMembers,true);
+  renderModalItems();
+  document.getElementById('bill-modal').classList.add('on');
+  document.getElementById('bill-modal').scrollTop=0;
 }
-
 function editBill(id){
   const b=bills.find(b=>b.id===id);if(!b)return;
-  editingId=id; modalItems=b.items.map(i=>({...i}));
+  editingBillId=id;modalItems=b.items.map(i=>({...i,participants:[...i.participants]}));
+  modalSelectedMembers=[...new Set(['เจน','กอหญ้า',...(b.extraMembers||[]),...b.items.map(i=>i.payer),...b.items.flatMap(i=>i.participants)])].filter(n=>members.find(m=>m.name===n));
   document.getElementById('m-name').value=b.name;
   document.getElementById('m-date').value=b.date;
-  document.getElementById('m-extra').value=(b.extraMembers||[]).join(', ');
-  document.getElementById('modal-title-text').textContent='✏️ แก้ไขบิล';
-  buildPayer();buildChips();renderModalItems();
-  document.getElementById('modal').classList.add('active');
-  document.getElementById('modal').scrollTop=0;
+  document.getElementById('modal-title').textContent='✏️ แก้ไขบิล';
+  buildPresetChipsInModal();buildFavQuick();
+  buildModalMemberChips();buildItemPayerSelect();
+  buildItemChips('m-ichips',modalSelectedMembers,true);
+  renderModalItems();
+  document.getElementById('bill-modal').classList.add('on');
+  document.getElementById('bill-modal').scrollTop=0;
 }
-
-function closeModal(){document.getElementById('modal').classList.remove('active');editingId=null;}
+function closeModal(){document.getElementById('bill-modal').classList.remove('on');editingBillId=null;}
 
 function getBillData(status){
   const name=document.getElementById('m-name').value.trim()||'บิล '+new Date().toLocaleDateString('th-TH',{month:'short',day:'numeric'});
   const date=document.getElementById('m-date').value||today();
-  const extra=(document.getElementById('m-extra').value||'').split(',').map(s=>s.trim()).filter(Boolean);
-  return{name,date,extraMembers:extra,items:[...modalItems],status};
+  return{name,date,extraMembers:modalSelectedMembers,items:[...modalItems],status,paidSlips:{}};
 }
-
 function saveDraft(){
-  const bill=getBillData('draft');
-  if(editingId){const i=bills.findIndex(b=>b.id===editingId);if(i!==-1)bills[i]={...bills[i],...bill};}
-  else bills.unshift({...bill,id:Date.now()});
-  save();closeModal();renderBills();toast('บันทึก Draft แล้ว 💾');
+  const b=getBillData('draft');
+  if(editingBillId){const i=bills.findIndex(x=>x.id===editingBillId);if(i!==-1)bills[i]={...bills[i],...b,paidSlips:bills[i].paidSlips||{}};}
+  else bills.unshift({...b,id:Date.now()});
+  sv(KK.bills,bills);closeModal();renderBills();toast('บันทึก Draft 💾');
 }
-
 function completeBill(){
-  if(!modalItems.length)return toast('ยังไม่มีรายการในบิล');
-  const bill=getBillData('done');
-  if(editingId){const i=bills.findIndex(b=>b.id===editingId);if(i!==-1)bills[i]={...bills[i],...bill};}
-  else bills.unshift({...bill,id:Date.now()});
-  save();closeModal();renderBills();toast('ปิดบิลเสร็จแล้ว ✓');
+  if(!modalItems.length)return toast('ยังไม่มีรายการ');
+  const b=getBillData('done');
+  if(editingBillId){const i=bills.findIndex(x=>x.id===editingBillId);if(i!==-1)bills[i]={...bills[i],...b,paidSlips:bills[i].paidSlips||{}};}
+  else bills.unshift({...b,id:Date.now()});
+  sv(KK.bills,bills);closeModal();renderBills();toast('ปิดบิลแล้ว ✓');
 }
-
-function markComplete(id){
-  const b=bills.find(b=>b.id===id);
-  if(!b)return;
-  if(!b.items.length)return toast('ยังไม่มีรายการในบิล');
-  b.status='done';save();renderBills();toast('ปิดบิลแล้ว ✓');
-}
-
-function reopenBill(id){
-  const b=bills.find(b=>b.id===id);
-  if(b){b.status='draft';save();renderBills();toast('เปิด Draft แล้ว ↩️');}
-}
-
+function markDone(id){const b=bills.find(b=>b.id===id);if(b&&b.items.length){b.status='done';sv(KK.bills,bills);renderBills();toast('ปิดบิลแล้ว ✓');}}
+function reopenBill(id){const b=bills.find(b=>b.id===id);if(b){b.status='draft';sv(KK.bills,bills);renderBills();toast('เปิด Draft ↩️');}}
 function deleteBill(id){
-  if(!confirm('ลบบิลนี้?'))return;
-  bills=bills.filter(b=>b.id!==id);save();renderBills();renderSummaryTab();
+  const b=bills.find(b=>b.id===id);if(!b)return;
+  document.getElementById('confirm-msg').textContent=`ลบบิล "${b.name}"?`;
+  document.getElementById('confirm-ok-btn').onclick=()=>{
+    bills=bills.filter(x=>x.id!==id);sv(KK.bills,bills);
+    document.getElementById('confirm-modal').classList.remove('on');
+    renderBills();toast('ลบบิลแล้ว');
+  };
+  document.getElementById('confirm-modal').classList.add('on');
 }
 
+// Toggle slip paid
+function toggleSlip(billId,key){
+  const b=bills.find(b=>b.id===billId);if(!b)return;
+  if(!b.paidSlips)b.paidSlips={};
+  b.paidSlips[key]=!b.paidSlips[key];
+  sv(KK.bills,bills);renderBills();
+}
+
+// Copy LINE
+function copyLine(billId){
+  const b=bills.find(b=>b.id===billId);if(!b)return;
+  const total=b.items.reduce((s,i)=>s+i.amount,0);
+  const allM=[...new Set(b.items.map(i=>i.payer).concat(b.items.flatMap(i=>i.participants)))];
+  const {net}=calcSettle(b.items,allM);
+  const txns=simplifyDebts(net);
+  const byDebtor={};
+  txns.forEach(t=>{if(!byDebtor[t.from])byDebtor[t.from]=[];byDebtor[t.from].push(t);});
+  let txt=`💸 สรุปบิล: ${b.name}\n📅 ${b.date}\n💰 รวม ${fmt(total)} บาท\n\n`;
+  txt+=`📋 รายการ:\n`;
+  b.items.forEach(i=>{txt+=`• ${i.name} ${fmt(i.amount)} บ. (${i.payer}จ่าย)\n`;});
+  txt+=`\n💸 สรุปการโอน:\n`;
+  if(Object.keys(byDebtor).length){
+    Object.entries(byDebtor).forEach(([person,rows])=>{
+      txt+=`\n${person} ต้องโอนรวม ${fmtD(rows.reduce((s,r)=>s+r.amt,0))} บ.\n`;
+      rows.forEach(r=>{
+        const mem=getMember(r.to);
+        const slipKey=`${r.from}->${r.to}`;
+        const paid=b.paidSlips&&b.paidSlips[slipKey];
+        txt+=`  👉 โอน ${r.to}: ${fmtD(r.amt)} บ.${paid?' ✅โอนแล้ว':''}\n`;
+        if(mem&&mem.pp)txt+=`     📱 ${mem.bank?mem.bank+' ':''} ${mem.pp}\n`;
+      });
+    });
+  } else txt+=`✅ เท่ากันหมด ไม่มีใครต้องโอน\n`;
+  navigator.clipboard.writeText(txt).then(()=>toast('Copy แล้ว! ส่ง LINE ได้เลย 📋')).catch(()=>{
+    const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);toast('Copy แล้ว! 📋');
+  });
+}
+
+// ── Render bill card ──
 function renderBillCard(b){
   const total=b.items.reduce((s,i)=>s+i.amount,0);
-  const allM=[...new Set(['เจน','กอหญ้า',...b.items.map(i=>i.payer),...b.items.flatMap(i=>i.participants)])];
-  const txns=b.items.length?simplifyDebts(calcSettle(b.items,allM).net):[];
-  const settleHtml=txns.length?txns.map(t=>`<div class="settle-box owe" style="margin-top:6px"><div style="font-size:15px">💸</div><div class="settle-text" style="font-size:13px">${t.from} โอน ${t.to} <span style="font-size:14px">${fmtD(t.amt)} บ.</span></div></div>`).join(''):b.items.length?`<div class="settle-box even" style="margin-top:6px"><div style="font-size:15px">✅</div><div class="settle-text" style="font-size:13px">เท่ากันพอดี!</div></div>`:'';
-  const members=['เจน','กอหญ้า',...(b.extraMembers||[])].join(', ');
   const isDraft=b.status==='draft';
-  const actions=isDraft?
-    `<button class="btn-edit" onclick="editBill(${b.id})">✏️ แก้ไข</button><button class="btn-complete" onclick="markComplete(${b.id})">✓ ปิดบิล</button><button class="btn-del" onclick="deleteBill(${b.id})">🗑 ลบ</button>`:
-    `<button class="btn-edit" onclick="editBill(${b.id})">✏️ แก้ไข</button><button class="btn-reopen" onclick="reopenBill(${b.id})">↩️ เปิดใหม่</button><button class="btn-del" onclick="deleteBill(${b.id})">🗑 ลบ</button>`;
-  return`<div class="bill-card ${b.status}">
-    <div class="bill-title">${b.name}<span class="badge badge-${b.status}">${isDraft?'Draft':'เสร็จแล้ว'}</span></div>
-    <div class="bill-date">${b.date} · ${members}</div>
-    <div class="bill-total">${fmt(total)} บาท</div>
-    ${b.items.length?`<div>${b.items.map(i=>`<div class="item-row"><span class="item-who ${whoClass(i.payer)}">${i.payer}</span><span class="item-name">${i.name}</span><span class="item-amt">${fmt(i.amount)}</span></div>`).join('')}</div>`:'<div style="font-size:12px;color:var(--text3);padding:4px 0">ยังไม่มีรายการ</div>'}
+  const allM=[...new Set(b.items.map(i=>i.payer).concat(b.items.flatMap(i=>i.participants)))];
+  const {net,share,paid:paidMap}=calcSettle(b.items,allM);
+  const txns=simplifyDebts(net);
+  // Group by debtor for clear display
+  const byDebtor={};
+  txns.forEach(t=>{if(!byDebtor[t.from])byDebtor[t.from]=[];byDebtor[t.from].push(t);});
+  // Share table
+  const perHead=allM.length?total/allM.length:0;
+  const shareTableRows=allM.map(m=>{
+    const p=paidMap[m]||0;const s=share[m]||0;const diff=p-s;
+    return`<tr><td>${m}</td><td style="text-align:right">${fmt(p)}</td><td style="text-align:right">${fmt(Math.round(s))}</td><td style="text-align:right;${diff>=0?'color:var(--teal)':'color:var(--rose)'}">${diff>=0?'+'+fmt(Math.round(diff)):fmt(Math.round(diff))}</td></tr>`;
+  }).join('');
+  // Settle html
+  let settleHtml='';
+  if(Object.keys(byDebtor).length){
+    settleHtml=Object.entries(byDebtor).map(([person,rows])=>{
+      const personTotal=rows.reduce((s,r)=>s+r.amt,0);
+      const rowsHtml=rows.map(r=>{
+        const slipKey=`${r.from}->${r.to}`;
+        const isPaid=b.paidSlips&&b.paidSlips[slipKey];
+        const mem=getMember(r.to);
+        const bankInfo=mem&&mem.pp?`<div style="font-size:10px;color:var(--tx3);margin-top:2px">📱 ${mem.bank?mem.bank+' ':''}${mem.pp}</div>`:'';
+        return`<div class="sp-row">
+          <div class="sp-row-left">
+            <div class="sp-to">→ ${r.to}</div>
+            ${bankInfo}
+          </div>
+          <span class="sp-amt ${isPaid?'paid':''}">${fmtD(r.amt)} บ.</span>
+          <button class="slip-btn ${isPaid?'on':''}" onclick="toggleSlip(${b.id},'${slipKey}')">${isPaid?'✓ รับแล้ว':'รับสลิป?'}</button>
+        </div>`;}).join('');
+      return`<div class="settle-person">
+        <div class="sp-header"><span class="sp-name">💸 ${person}</span><span class="sp-total">รวม ${fmtD(personTotal)} บ.</span></div>
+        ${rowsHtml}
+      </div>`;}).join('');
+  } else if(b.items.length){
+    settleHtml=`<div style="background:var(--td);border-radius:var(--rs);padding:10px;margin-top:8px;text-align:center;font-size:13px;color:var(--teal)">✅ เท่ากันพอดี!</div>`;
+  }
+  const members_str=(b.extraMembers||['เจน','กอหญ้า']).join(', ');
+  const acts=isDraft?
+    `<button class="b-edit" onclick="editBill(${b.id})">✏️ แก้ไข</button><button class="b-done" onclick="markDone(${b.id})">✓ ปิดบิล</button><button class="b-del" onclick="deleteBill(${b.id})">🗑</button>`:
+    `<button class="b-edit" onclick="editBill(${b.id})">✏️ แก้ไข</button><button class="b-line" onclick="copyLine(${b.id})">📋 Copy LINE</button><button class="b-reopen" onclick="reopenBill(${b.id})">↩️</button><button class="b-del" onclick="deleteBill(${b.id})">🗑</button>`;
+  return`<div class="bc ${b.status}">
+    <div class="bc-name">${b.name}<span class="badge ${isDraft?'b-draft':'b-done2'}">${isDraft?'Draft':'เสร็จ'}</span></div>
+    <div class="bc-date">${b.date} · ${members_str}</div>
+    <div class="bc-total">${fmt(total)} บาท</div>
+    ${b.items.length?`
+    <details style="margin-top:4px">
+      <summary style="font-size:12px;color:var(--tx3);cursor:pointer">ดูตารางส่วนแบ่ง</summary>
+      <table class="share-table" style="margin-top:6px">
+        <tr><th>คน</th><th style="text-align:right">จ่ายไป</th><th style="text-align:right">ส่วนแบ่ง</th><th style="text-align:right">ผลต่าง</th></tr>
+        ${shareTableRows}
+      </table>
+    </details>`:''}
     ${settleHtml}
-    <div class="bill-actions">${actions}</div>
+    <div class="bacts">${acts}</div>
   </div>`;
 }
 
 function renderBills(){
   const drafts=bills.filter(b=>b.status==='draft');
   const done=bills.filter(b=>b.status==='done');
-  document.getElementById('draft-section').style.display=drafts.length?'':'none';
+  document.getElementById('draft-sec').style.display=drafts.length?'':'none';
   document.getElementById('draft-list').innerHTML=drafts.map(renderBillCard).join('');
-  document.getElementById('done-list').innerHTML=done.length?done.map(renderBillCard).join(''):'<div class="empty"><div class="empty-icon">🧾</div>ยังไม่มีบิลที่เสร็จแล้ว</div>';
+  document.getElementById('done-list').innerHTML=done.length?done.map(renderBillCard).join(''):'<div class="empty"><div>🧾</div>ยังไม่มีบิลที่เสร็จแล้ว</div>';
 }
 
+// ── Summary ──
 function renderSummaryTab(){
   const done=bills.filter(b=>b.status==='done');
   const grand=done.reduce((s,b)=>s+b.items.reduce((ss,i)=>ss+i.amount,0),0);
-  const jPaid=done.reduce((s,b)=>s+b.items.filter(i=>i.payer==='เจน').reduce((ss,i)=>ss+i.amount,0),0);
-  const kPaid=done.reduce((s,b)=>s+b.items.filter(i=>i.payer==='กอหญ้า').reduce((ss,i)=>ss+i.amount,0),0);
-  document.getElementById('summary-totals').innerHTML=`
-    <div class="sum-item"><div class="sum-label">รวมทั้งหมด</div><div class="sum-val coral">${fmt(grand)}</div></div>
-    <div class="sum-item"><div class="sum-label">เจนจ่าย</div><div class="sum-val coral">${fmt(jPaid)}</div></div>
-    <div class="sum-item"><div class="sum-label">กอหญ้าจ่าย</div><div class="sum-val teal">${fmt(kPaid)}</div></div>
-    <div class="sum-item"><div class="sum-label">บิลเสร็จแล้ว</div><div class="sum-val gold">${done.length}</div></div>`;
   const allItems=done.flatMap(b=>b.items);
-  const txns=simplifyDebts(calcSettle(allItems,['เจน','กอหญ้า']).net);
-  document.getElementById('summary-settle').innerHTML=`<div class="card-title">💰 ยอดรวมทุกบิลที่ปิดแล้ว</div>`+(txns.length?txns.map(t=>`<div class="settle-box owe"><div style="font-size:18px">💸</div><div><div class="settle-text">${t.from} ยังต้องโอน ${t.to} <span>${fmtD(t.amt)} บ.</span></div><div style="font-size:11px;color:var(--text2);margin-top:2px">รวมทุกบิลที่ปิดแล้ว</div></div></div>`).join(''):`<div class="settle-box even"><div style="font-size:18px">🎉</div><div><div class="settle-text">เท่ากันหมด!</div><div style="font-size:11px;color:var(--text2);margin-top:2px">ไม่มีใครค้างใคร</div></div></div>`);
-  document.getElementById('summary-list').innerHTML=done.slice(0,5).map(b=>{const t=b.items.reduce((s,i)=>s+i.amount,0);return`<div class="bill-card done" style="padding:12px 14px"><div style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:14px;font-weight:500">${b.name}</div><div class="bill-date">${b.date}</div></div><div style="font-size:16px;font-weight:600;color:var(--coral)">${fmt(t)} บ.</div></div></div>`;}).join('');
+  const allPayers=[...new Set(allItems.map(i=>i.payer))];
+  document.getElementById('sum-bar').innerHTML=`
+    <div class="si"><div class="sl">รวม</div><div class="sv c">${fmt(grand)}</div></div>
+    <div class="si"><div class="sl">บิล</div><div class="sv g">${done.length}</div></div>
+    ${allPayers.slice(0,3).map(p=>`<div class="si"><div class="sl">${p}จ่าย</div><div class="sv t">${fmt(allItems.filter(i=>i.payer===p).reduce((s,i)=>s+i.amount,0))}</div></div>`).join('')}`;
+  const allM=[...new Set(allItems.map(i=>i.payer).concat(allItems.flatMap(i=>i.participants)))];
+  const txns=simplifyDebts(calcSettle(allItems,allM).net);
+  const byDebtor={};txns.forEach(t=>{if(!byDebtor[t.from])byDebtor[t.from]=[];byDebtor[t.from].push(t);});
+  document.getElementById('sum-settle').innerHTML=`<div class="card-t">💰 ยอดค้างทั้งหมด</div>`+(Object.keys(byDebtor).length?Object.entries(byDebtor).map(([person,rows])=>`
+    <div class="settle-person">
+      <div class="sp-header"><span class="sp-name">💸 ${person}</span><span class="sp-total">รวม ${fmtD(rows.reduce((s,r)=>s+r.amt,0))} บ.</span></div>
+      ${rows.map(r=>{const mem=getMember(r.to);return`<div class="sp-row"><div class="sp-row-left"><div class="sp-to">→ ${r.to}</div>${mem&&mem.pp?`<div style="font-size:10px;color:var(--tx3)">📱 ${mem.bank?mem.bank+' ':''}${mem.pp}</div>`:''}</div><span class="sp-amt">${fmtD(r.amt)} บ.</span></div>`;}).join('')}
+    </div>`).join(''):`<div style="text-align:center;color:var(--teal);font-size:13px;padding:10px">🎉 ไม่มีใครค้างใคร!</div>`);
+  document.getElementById('sum-list').innerHTML=done.slice(0,6).map(b=>{const t=b.items.reduce((s,i)=>s+i.amount,0);return`<div class="bc done" style="padding:11px 13px"><div style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:13px;font-weight:500">${b.name}</div><div class="bc-date">${b.date}</div></div><div style="font-size:14px;font-weight:600;color:var(--coral)">${fmt(t)} บ.</div></div></div>`;}).join('');
 }
 
+// ── Members ──
+function addMember(){
+  const name=document.getElementById('new-mem-name').value.trim();
+  if(!name)return toast('ใส่ชื่อสมาชิกด้วยนะ');
+  if(members.find(m=>m.name===name))return toast('มีชื่อนี้แล้วครับ');
+  const pp=document.getElementById('new-mem-pp').value.trim();
+  const bank=document.getElementById('new-mem-bank').value.trim();
+  members.push({id:Date.now().toString(),name,pp,bank});
+  sv(KK.members,members);
+  document.getElementById('new-mem-name').value='';
+  document.getElementById('new-mem-pp').value='';
+  document.getElementById('new-mem-bank').value='';
+  renderMembersTab();toast('เพิ่มสมาชิกแล้ว ✓');
+}
+function editMemberPP(id){
+  const m=members.find(m=>m.id===id);if(!m)return;
+  document.getElementById('em-id').value=id;
+  document.getElementById('em-name').value=m.name;
+  document.getElementById('em-pp').value=m.pp||'';
+  document.getElementById('em-bank').value=m.bank||'';
+  document.getElementById('mem-modal').classList.add('on');
+}
+function saveEditMember(){
+  const id=document.getElementById('em-id').value;
+  const m=members.find(m=>m.id===id);if(!m)return;
+  const newName=document.getElementById('em-name').value.trim();
+  if(!newName)return toast('ใส่ชื่อด้วยนะ');
+  m.name=newName;
+  m.pp=document.getElementById('em-pp').value.trim();
+  m.bank=document.getElementById('em-bank').value.trim();
+  sv(KK.members,members);
+  document.getElementById('mem-modal').classList.remove('on');
+  renderMembersTab();toast('แก้ไขแล้ว ✓');
+}
+function deleteMember(id){
+  const m=members.find(m=>m.id===id);if(!m)return;
+  document.getElementById('confirm-msg').textContent=`ลบ "${m.name}" ออกจากรายชื่อ?`;
+  document.getElementById('confirm-ok-btn').onclick=()=>{
+    members=members.filter(x=>x.id!==id);
+    sv(KK.members,members);
+    document.getElementById('confirm-modal').classList.remove('on');
+    renderMembersTab();toast('ลบแล้ว');
+  };
+  document.getElementById('confirm-modal').classList.add('on');
+}
+function renderMembersTab(){
+  const el=document.getElementById('mem-list');
+  el.innerHTML=members.map(m=>{
+    const c=memberColor(m.name);
+    return`<div class="mem-card">
+      <div style="width:34px;height:34px;border-radius:50%;background:${c.bg};color:${c.color};display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;flex-shrink:0">${m.name[0]}</div>
+      <div class="mem-info">
+        <div class="mem-name">${m.name}</div>
+        <div class="mem-bank">${m.pp?`📱 ${m.bank?m.bank+' ':''}${m.pp}`:'ยังไม่มีเลขบัญชี'}</div>
+      </div>
+      <button class="icon-btn" onclick="editMemberPP('${m.id}')">✏️</button>
+      <button class="icon-btn" onclick="deleteMember('${m.id}')">✕</button>
+    </div>`;}).join('');
+  // Also rebuild preset member chips
+  buildPresetMemberChipsInSettings();
+}
+
+// ── Settings ──
+function buildPresetMemberChipsInSettings(){
+  const el=document.getElementById('pre-chips');
+  el.innerHTML=members.map(m=>{
+    const c=memberColor(m.name);
+    return`<button class="chip" style="background:${c.bg};color:${c.color}" onclick="this.classList.toggle('on');this.style.borderColor=this.classList.contains('on')?'${c.color}':'transparent'">${m.name}</button>`;
+  }).join('');
+}
+function addPreset(){
+  const name=document.getElementById('pre-name').value.trim();
+  const mems=getChips('pre-chips');
+  if(!name||!mems.length)return toast('ใส่ชื่อกลุ่มและเลือกสมาชิกด้วยนะ');
+  presets.push({id:Date.now().toString(),name,members:mems});
+  sv(KK.presets,presets);document.getElementById('pre-name').value='';
+  renderSettingsTab();toast('เพิ่มกลุ่มแล้ว ✓');
+}
+function delPreset(id){presets=presets.filter(p=>p.id!==id);sv(KK.presets,presets);renderSettingsTab();}
+function addFav(){
+  const name=document.getElementById('fav-name').value.trim();
+  if(!name)return toast('ใส่ชื่อรายการด้วยนะ');
+  const payer=document.getElementById('fav-payer').value.trim();
+  const amt=parseFloat(document.getElementById('fav-amt').value)||0;
+  favs.push({id:Date.now().toString(),name,payer,amt});
+  sv(KK.favs,favs);document.getElementById('fav-name').value='';document.getElementById('fav-payer').value='';document.getElementById('fav-amt').value='';
+  renderSettingsTab();toast('เพิ่มรายการโปรดแล้ว ✓');
+}
+function delFav(id){favs=favs.filter(f=>f.id!==id);sv(KK.favs,favs);renderSettingsTab();}
+function renderSettingsTab(){
+  document.getElementById('fav-list-cfg').innerHTML=favs.length?favs.map(f=>`<div class="item-row"><div class="ib"><div class="in">⭐ ${f.name}</div><div class="is">${f.payer?f.payer+'จ่าย':''}${f.amt?' · '+fmt(f.amt)+' บ.':''}</div></div><button class="icon-btn" onclick="delFav('${f.id}')">✕</button></div>`).join(''):'<div class="empty" style="padding:10px 0">ยังไม่มีรายการโปรด</div>';
+  document.getElementById('preset-list-cfg').innerHTML=presets.length?presets.map(p=>`<div class="item-row"><div class="ib"><div class="in">👥 ${p.name}</div><div class="is">${p.members.join(', ')}</div></div><button class="icon-btn" onclick="delPreset('${p.id}')">✕</button></div>`).join(''):'<div class="empty" style="padding:10px 0">ยังไม่มี Preset</div>';
+  buildPresetMemberChipsInSettings();
+}
+
+// ── Tab ──
 function showTab(id){
-  ['bills','summary'].forEach(t=>{
-    document.getElementById('tab-'+t).classList.toggle('active',t===id);
-    document.getElementById('nav-'+t).classList.toggle('active',t===id);
+  ['bills','summary','members','settings'].forEach(t=>{
+    document.getElementById('pg-'+t).classList.toggle('on',t===id);
+    document.getElementById('nb-'+t).classList.toggle('on',t===id);
   });
-  document.querySelectorAll('.tab').forEach((el,i)=>el.classList.toggle('active',['bills','summary'][i]===id));
+  document.querySelectorAll('.tab').forEach((el,i)=>el.classList.toggle('on',['bills','summary','members','settings'][i]===id));
   if(id==='summary')renderSummaryTab();
+  if(id==='members')renderMembersTab();
+  if(id==='settings')renderSettingsTab();
 }
 
-document.getElementById('m-extra').addEventListener('input',()=>{buildPayer();buildChips();});
+// Init
 renderBills();
 </script>
 </body>
