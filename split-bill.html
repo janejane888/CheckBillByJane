@@ -577,22 +577,31 @@ function copyLine(billId){
   const txns=simplifyDebts(net);
   const byDebtor={};
   txns.forEach(t=>{if(!byDebtor[t.from])byDebtor[t.from]=[];byDebtor[t.from].push(t);});
-  let txt=`💸 สรุปบิล: ${b.name}\n📅 ${b.date}\n💰 รวม ${fmt(total)} บาท\n\n`;
-  txt+=`📋 รายการ:\n`;
-  b.items.forEach(i=>{txt+=`• ${i.name} ${fmt(i.amount)} บ. (${i.payer}จ่าย)\n`;});
-  txt+=`\n💸 สรุปการโอน:\n`;
+  let txt=`💸 สรุปบิล: ${b.name}\n`;
+  txt+=`📅 ${b.date} · รวม ${fmt(total)} บาท\n`;
+  txt+=`👥 สมาชิก: ${allM.join(', ')}\n`;
+  const line='─'.repeat(20);
   if(Object.keys(byDebtor).length){
+    txt+=`\n${line}\n`;
     Object.entries(byDebtor).forEach(([person,rows])=>{
-      txt+=`\n${person} ต้องโอนรวม ${fmtD(rows.reduce((s,r)=>s+r.amt,0))} บ.\n`;
+      txt+=`\n💸 ${person} โอนรวม ${fmtD(rows.reduce((s,r)=>s+r.amt,0))} บาท\n`;
       rows.forEach(r=>{
         const mem=getMember(r.to);
         const slipKey=`${r.from}->${r.to}`;
         const paid=b.paidSlips&&b.paidSlips[slipKey];
-        txt+=`  👉 โอน ${r.to}: ${fmtD(r.amt)} บ.${paid?' ✅โอนแล้ว':''}\n`;
-        if(mem&&mem.pp)txt+=`     📱 ${mem.bank?mem.bank+' ':''} ${mem.pp}\n`;
+        txt+=`  → ${r.to} ${fmtD(r.amt)} บ.${paid?' ✅':''}\n`;
+        if(mem&&mem.pp)txt+=`     📱 ${mem.bank?mem.bank+' ':''}${mem.pp}\n`;
       });
     });
-  } else txt+=`✅ เท่ากันหมด ไม่มีใครต้องโอน\n`;
+  } else txt+=`\n✅ เท่ากันหมด ไม่มีใครต้องโอน\n`;
+  txt+=`\n${line}\n📋 รายการ:\n`;
+  b.items.forEach(i=>{
+    const n=i.participants.length||1;
+    const per=i.amount/n;
+    const allSame=n===allM.length;
+    txt+=`• ${i.name} ${fmt(i.amount)} บ.\n`;
+    txt+=`  ${i.payer}จ่าย · หาร ${allSame?'ทุกคน':i.participants.join(', ')} (${fmtD(per)} บ./คน)\n`;
+  });
   navigator.clipboard.writeText(txt).then(()=>toast('Copy แล้ว! ส่ง LINE ได้เลย 📋')).catch(()=>{
     const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);toast('Copy แล้ว! 📋');
   });
